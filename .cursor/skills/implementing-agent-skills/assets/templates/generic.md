@@ -20,6 +20,14 @@ A brief explanation of what this skill helps the agent achieve.
 1.  **Step 1**: Describe the first step.
 2.  **Step 2**: Describe the second step.
 
+## Safety & Verification (Mandatory for State Changes)
+
+If this skill modifies files, repositories, or external systems:
+
+- **Context Awareness**: Ensure the agent has verified the current operating environment (e.g., `gh-verifying-context`).
+- **Human-in-the-Loop**: Present the proposed changes (diffs, commands, content) to the user before execution.
+- **Data Leakage Check**: Verify that sensitive information (credentials, internal data) is not being exposed.
+
 ## Workflow (optional)
 
 For multi-step tasks, add a copyable checklist:

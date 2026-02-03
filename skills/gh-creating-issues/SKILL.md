@@ -11,8 +11,10 @@ Enables the creation of new issues using the `gh issue create` command.
 
 ## 1. Safety & Verification
 
-- **Required Fields**: At least a title is required.
-- **Templates**: If the repo has templates, they will be used by default unless specified otherwise.
+- **Mandatory Context**: Ensure `gh-verifying-context` has been run and confirmed by the user.
+- **Human-in-the-Loop**: You MUST present the full command and the issue content (Title, Body) to the user before execution.
+- **Repository Check**: Confirm the target repository name and owner with the user.
+- **Sensitivity Check**: Do not include internal credentials, server IPs, or proprietary snippets in the issue body.
 
 ## 2. Common Workflows
 

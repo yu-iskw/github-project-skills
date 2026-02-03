@@ -11,7 +11,9 @@ Manages development branches using the `gh issue develop` command.
 
 ## 1. Safety & Verification
 
-- **Branch Name**: You can specify a name or let `gh` generate one.
+- **Mandatory Context**: Ensure `gh-verifying-context` has been run and confirmed by the user.
+- **Human-in-the-Loop**: You MUST confirm the branch name and the target issue with the user before creation.
+- **Repository Check**: Ensure you are in the correct repository (work vs personal) before creating a branch.
 
 ## 2. Common Workflows
 

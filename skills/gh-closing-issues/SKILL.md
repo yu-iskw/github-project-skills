@@ -11,7 +11,9 @@ Resolves an issue using the `gh issue close` command.
 
 ## 1. Safety & Verification
 
-- **Reason**: You can specify a reason (completed, not planned).
+- **Mandatory Context**: Ensure `gh-verifying-context` has been run and confirmed by the user.
+- **Human-in-the-Loop**: You MUST confirm with the user before closing any issue. State the issue number and title clearly.
+- **Verification**: Ensure the issue is actually resolved according to the user's criteria.
 
 ## 2. Common Workflows
 

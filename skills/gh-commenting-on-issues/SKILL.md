@@ -11,7 +11,9 @@ Posts updates to an existing issue using the `gh issue comment` command.
 
 ## 1. Safety & Verification
 
-- **Target**: Must provide a valid issue number or URL.
+- **Mandatory Context**: Ensure `gh-verifying-context` has been run and confirmed by the user.
+- **Human-in-the-Loop**: You MUST present the proposed comment body and the target issue number/URL to the user before execution.
+- **Sensitivity Check**: Do not include internal credentials or proprietary details in comments.
 
 ## 2. Common Workflows
 

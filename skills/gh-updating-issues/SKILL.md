@@ -11,10 +11,10 @@ Enables the modification of existing issues using the `gh issue edit` command. T
 
 ## 1. Safety & Verification
 
-Before updating an issue:
-
-1.  **Verify Issue Exists**: Use `gh-viewing-issue-details` to confirm the issue number/URL and its current state.
-2.  **Project Authorization**: Editing project associations requires the `project` scope. If you encounter authorization errors, the user may need to run `gh auth refresh -s project`.
+- **Mandatory Context**: Ensure `gh-verifying-context` has been run and confirmed by the user.
+- **Human-in-the-Loop**: You MUST present all proposed changes (Title, Body, Labels, Assignees, Projects) and the target issue to the user before execution.
+- **Verify Issue Exists**: Use `gh-viewing-issue-details` to confirm the issue state before editing.
+- **Sensitivity Check**: Do not introduce internal credentials or proprietary data into the issue metadata or body.
 
 ## 2. Common Workflows
 
