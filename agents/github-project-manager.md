@@ -1,5 +1,5 @@
 ---
-name: project-manager
+name: github-project-manager
 description: Technical project manager agent. Use proactively to synchronize repository work with GitHub Project boards.
 ---
 

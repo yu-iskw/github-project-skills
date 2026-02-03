@@ -26,8 +26,8 @@ This repository includes the following Agents:
 
 <!-- START-AGENTS -->
 
-- **[project-manager](agents/project-manager.md)**: Technical project manager agent. Use proactively to synchronize repository work with GitHub Project boards.
-- **[triage-agent](agents/triage-agent.md)**: Expert triage agent. Use proactively to categorize, label, and assign new issues.
+- **[github-project-manager](agents/github-project-manager.md)**: Technical project manager agent. Use proactively to synchronize repository work with GitHub Project boards.
+- **[github-triage-agent](agents/github-triage-agent.md)**: Expert triage agent. Use proactively to categorize, label, and assign new issues.
 <!-- END-AGENTS -->
 
 ## Agent Skills

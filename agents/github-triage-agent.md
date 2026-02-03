@@ -1,5 +1,5 @@
 ---
-name: triage-agent
+name: github-triage-agent
 description: Expert triage agent. Use proactively to categorize, label, and assign new issues.
 ---
 
