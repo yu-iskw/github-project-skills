@@ -4,6 +4,10 @@
 
 This repository is a collection of specialized **Agent Skills** and **Subagents** designed to automate and streamline GitHub workflows by leveraging the **GitHub CLI (`gh`)**. These skills empower AI agents (like Cursor, Claude Code, or Gemini CLI) to interact deeply with GitHub issues, milestones, labels, and project boards, enabling autonomous project management and triage.
 
+<video src="docs/assets/test-skills.mp4" controls="controls" style="max-width: 100%;">
+  Your browser does not support the video tag.
+</video>
+
 ## Key Features
 
 - **Zero-Config Authentication**: Leverages the GitHub CLI (`gh` command) for authentication, eliminating the need to manage Personal Access Tokens (PATs).
@@ -49,6 +53,7 @@ This repository includes the following Agent Skills:
 - **[gh-searching-issues](skills/gh-searching-issues/)**: Performs advanced searches for issues. Use when looking for duplicates or specific keywords across repositories.
 - **[gh-setting-milestones](skills/gh-setting-milestones/)**: Associates an issue with a milestone. Use for release planning.
 - **[gh-transferring-issues](skills/gh-transferring-issues/)**: Transfers an issue to another repository. Use for cross-project reorganization.
+- **[gh-updating-issues](skills/gh-updating-issues/)**: Updates existing GitHub issues (title, body, labels, assignees, milestones, and projects). Use to refine issue details or synchronize with project boards.
 - **[gh-updating-project-fields](skills/gh-updating-project-fields/)**: Updates a field value for an item in a GitHub Project. Use to move items between statuses or set custom field data.
 - **[gh-viewing-issue-details](skills/gh-viewing-issue-details/)**: Retrieves detailed information about a specific GitHub issue. Use when you need to read the body, comments, or labels of an issue.
 - **[gh-viewing-project-items](skills/gh-viewing-project-items/)**: Lists items within a GitHub Project. Use when you need to see which issues or PRs are on a board.

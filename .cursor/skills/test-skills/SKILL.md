@@ -7,12 +7,12 @@ description: Comprehensive testing suite for GitHub agent skills and subagents. 
 
 ## Purpose
 
-Automates the verification of GitHub management skills and subagents through 15 practical project management workflows. It ensures that the system can handle a full issue lifecycle from creation to closure, including project board integration.
+Automates the verification of GitHub management skills and subagents through 17 practical project management workflows. It ensures that the system can handle a full issue lifecycle from creation to closure, including project board integration and content updates.
 
 ## 1. Prerequisites
 
 - **Target Project**: You MUST identify the GitHub project to use for testing.
-- **Resources**: Familiarize yourself with the [15 scenarios](references/scenarios.md) and the [report template](assets/report-template.md).
+- **Resources**: Familiarize yourself with the [17 scenarios](references/scenarios.md) and the [report template](assets/report-template.md).
 
 ## 2. Initialization
 
@@ -26,7 +26,7 @@ Follow this checklist to execute the comprehensive test suite:
 
 - [ ] **Step 0**: Identify Target Project (Ask user).
 - [ ] **Step 1**: List Open Issues (Baseline).
-- [ ] **Step 2**: Create Test Bug Report.
+- [ ] **Step 2**: Create Project-linked Test Bug.
 - [ ] **Step 3**: Add Triage Comment.
 - [ ] **Step 4**: Apply Categorization Labels.
 - [ ] **Step 5**: Remove Temporary Labels.
@@ -34,12 +34,14 @@ Follow this checklist to execute the comprehensive test suite:
 - [ ] **Step 7**: Set Release Milestone.
 - [ ] **Step 8**: Create Linked Branch.
 - [ ] **Step 9**: List Global Projects.
-- [ ] **Step 10**: Add Issue to Project.
+- [ ] **Step 10**: Verify Project Linkage.
 - [ ] **Step 11**: Retrieve Project Items.
 - [ ] **Step 12**: Move Item to 'In Progress'.
 - [ ] **Step 13**: Search for Duplicate Issues.
-- [ ] **Step 14**: Move Item to 'Done'.
-- [ ] **Step 15**: Close the Verified Issue.
+- [ ] **Step 14**: Refine Issue Content (Title/Body).
+- [ ] **Step 15**: Multi-Attribute Update (Labels/Milestone).
+- [ ] **Step 16**: Move Item to 'Done'.
+- [ ] **Step 17**: Close the Verified Issue.
 - [ ] **Finalize**: Generate Test Report.
 
 ## 4. Instructions
@@ -54,4 +56,4 @@ Follow this checklist to execute the comprehensive test suite:
 ### Scenario Execution
 
 **Input**: "Run the test suite on Project #2."
-**Behavior**: The agent lists projects, confirms #2, executes the 15 steps while logging timestamps, and finally outputs the report.
+**Behavior**: The agent lists projects, confirms #2, executes the 17 steps while logging timestamps, and finally outputs the report.

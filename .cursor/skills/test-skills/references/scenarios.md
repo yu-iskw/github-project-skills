@@ -8,12 +8,12 @@ These scenarios test the atomic skills and composite subagents in a realistic pr
 - **Skill**: `gh-listing-issues`
 - **Verification**: Ensure output is valid JSON and contains current issues.
 
-## Scenario 2: Creating a Bug Report
+## Scenario 2: Creating a Bug Report within a Project
 
-- **Goal**: Test issue initialization.
+- **Goal**: Test issue initialization with project linkage.
 - **Skill**: `gh-creating-issues`
-- **Input**: Title: "TEST: Workflow Malfunction", Body: "Reproduction steps: 1. Launch..."
-- **Verification**: Capture the URL of the created issue.
+- **Input**: Title: "TEST: Workflow Malfunction", Body: "Reproduction steps: 1. Launch...", Project: "Target Project Title"
+- **Verification**: Capture the URL of the created issue and confirm it appears in the target project.
 
 ## Scenario 3: Adding a Triage Comment
 
@@ -63,11 +63,11 @@ These scenarios test the atomic skills and composite subagents in a realistic pr
 - **Skill**: `gh-listing-projects`
 - **Verification**: Project #2 (or specified) is in the list.
 
-## Scenario 10: Adding Issue to Project
+## Scenario 10: Verifying Project Linkage
 
-- **Goal**: Test board integration.
-- **Skill**: `gh-adding-items-to-projects`
-- **Input**: Link Scenario 2 issue to the target project.
+- **Goal**: Confirm the issue was correctly linked at creation.
+- **Skill**: `gh-viewing-project-items` or `gh-viewing-issue-details`
+- **Input**: Verify the issue from Scenario 2 is linked to the target project.
 - **Verification**: Item ID is returned/discovered.
 
 ## Scenario 11: Retrieving Project Items
@@ -103,3 +103,17 @@ These scenarios test the atomic skills and composite subagents in a realistic pr
 - **Skill**: `gh-closing-issues`
 - **Input**: Reason "completed".
 - **Verification**: Issue state is "closed".
+
+## Scenario 16: Refining Issue Content
+
+- **Goal**: Test updating core issue data.
+- **Skill**: `gh-updating-issues`
+- **Input**: Update Title: "TEST: Refined Workflow Malfunction", Body: "Updated repro steps..."
+- **Verification**: Check issue details for new title and body.
+
+## Scenario 17: Multi-Attribute Metadata Update
+
+- **Goal**: Test batch updates for efficiency.
+- **Skill**: `gh-updating-issues`
+- **Input**: Add label "documentation", set milestone, and add to project (if not already added).
+- **Verification**: All attributes reflect changes in a single verification check.
