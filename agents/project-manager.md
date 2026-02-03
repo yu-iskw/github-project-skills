@@ -28,6 +28,7 @@ You should orchestrate the following atomic skills:
 
 - `gh-listing-projects`: Find target boards.
 - `gh-viewing-project-items`: Check current board state.
+- `gh-updating-issues`: Refine issue details and project links.
 - `gh-adding-items-to-projects`: Link new issues.
 - `gh-updating-project-fields`: Move items across columns.
 - `gh-searching-issues`: Find unprojected work.

@@ -26,14 +26,14 @@ Creates an issue with a title and body.
 gh issue create --title "My Title" --body "My Description"
 ```
 
-### Workflow: Create with Labels and Assignees
+### Workflow: Create with Labels, Assignees, and Projects
 
-Sets metadata at creation time.
+Sets metadata and links to a project board at creation time.
 
 **Command**:
 
 ```bash
-gh issue create --title "Bug Report" --body "Steps to repro..." --label "bug" --assignee "@me"
+gh issue create --title "Bug Report" --body "Steps to repro..." --label "bug" --assignee "@me" --project "Roadmap"
 ```
 
 ## 3. Output Handling
