@@ -11,7 +11,9 @@ Links a resource to a project using the `gh project item-add` command.
 
 ## 1. Safety & Verification
 
-- **Resource URL**: Requires the full URL of the issue or PR to add.
+- **Mandatory Context**: Ensure `gh-verifying-context` has been run and confirmed by the user.
+- **Human-in-the-Loop**: You MUST confirm the target project (name and number) and the item being added with the user.
+- **Verification**: Use `gh-listing-projects` to ensure the project is the intended one.
 
 ## 2. Common Workflows
 

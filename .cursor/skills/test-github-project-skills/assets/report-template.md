@@ -16,6 +16,10 @@
 
 ## 3. Scenario Results
 
+### Group A: Core Agent Scenarios
+
+_Verifies primary workflows used by defined subagents._
+
 | #   | Scenario                       | Status      | Duration | Observation |
 | :-- | :----------------------------- | :---------- | :------- | :---------- |
 | 1   | Listing Open Issues            | [PASS/FAIL] | [S]      |             |
@@ -25,14 +29,23 @@
 | 5   | Removing Temporary Labels      | [PASS/FAIL] | [S]      |             |
 | 6   | Assigning a Lead Maintainer    | [PASS/FAIL] | [S]      |             |
 | 7   | Setting a Release Milestone    | [PASS/FAIL] | [S]      |             |
-| 8   | Creating a Linked Branch       | [PASS/FAIL] | [S]      |             |
 | 9   | Listing Global Projects        | [PASS/FAIL] | [S]      |             |
-| 10  | Adding Issue to Project        | [PASS/FAIL] | [S]      |             |
+| 10  | Verifying Project Linkage      | [PASS/FAIL] | [S]      |             |
 | 11  | Retrieving Project Items       | [PASS/FAIL] | [S]      |             |
 | 12  | Moving Item to 'In Progress'   | [PASS/FAIL] | [S]      |             |
 | 13  | Searching for Duplicate Issues | [PASS/FAIL] | [S]      |             |
 | 14  | Moving Item to 'Done'          | [PASS/FAIL] | [S]      |             |
 | 15  | Closing the Verified Issue     | [PASS/FAIL] | [S]      |             |
+| 16  | Refining Issue Content         | [PASS/FAIL] | [S]      |             |
+| 17  | Multi-Attribute Update         | [PASS/FAIL] | [S]      |             |
+
+### Group B: Atomic Skill Scenarios (Extension/Experimental)
+
+_Verifies standalone skills or experimental features._
+
+| #   | Scenario                 | Status      | Duration | Observation |
+| :-- | :----------------------- | :---------- | :------- | :---------- |
+| 8   | Creating a Linked Branch | [PASS/FAIL] | [S]      |             |
 
 ## 4. Detailed Observations
 
@@ -42,4 +55,10 @@
 
 ## 5. Conclusion
 
-[Overall assessment of the system's readiness]
+### Core Readiness Assessment
+
+[Assessment of Group A scenarios - are the core agents ready for production?]
+
+### Overall Assessment
+
+[General summary of the system's state including extension skills.]

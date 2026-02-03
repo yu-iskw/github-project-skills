@@ -13,8 +13,10 @@ Provides a standardized way for the agent to interact with `[cli-command]`.
 
 Before executing any commands, the agent must:
 
-1.  **Check Help**: Run `[cli-command] --help` to verify available flags and syntax.
-2.  **Verify Version**: Run `[cli-command] --version` to ensure compatibility.
+1.  **Context Verification**: Ensure `gh-verifying-context` (or equivalent) has been confirmed if the tool interacts with GitHub/remote systems.
+2.  **Human-in-the-Loop**: Preview all state-changing commands and their impact to the user for approval.
+3.  **Check Help**: Run `[cli-command] --help` to verify available flags and syntax.
+4.  **Verify Version**: Run `[cli-command] --version` to ensure compatibility.
 
 ## 2. Common Workflows
 

@@ -11,7 +11,9 @@ Edits project item data using the `gh project item-edit` command.
 
 ## 1. Safety & Verification
 
-- **IDs**: Requires the Item ID, Field ID, and Project ID (UUID format).
+- **Mandatory Context**: Ensure `gh-verifying-context` has been run and confirmed by the user.
+- **Human-in-the-Loop**: You MUST present the proposed field update (e.g., "Moving Status to Done") and the target item to the user before execution.
+- **Verification**: Ensure the project and field IDs are correct by listing them first if not certain.
 
 ## 2. Common Workflows
 
