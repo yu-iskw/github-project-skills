@@ -16,6 +16,15 @@ This repository is a collection of specialized **Agent Skills** and **Subagents*
 - **Issue Lifecycle Management**: Automate common tasks such as creating, closing, locking, and transferring issues across repositories.
 - **Advanced Discovery**: Perform complex searches for issues and pull requests to identify duplicates or related work.
 
+## Use Cases
+
+Learn how to leverage this repository for common GitHub workflows:
+
+- **[Automated Issue Triage](docs/USE_CASES.md#1-automated-issue-triage)**: Categorize and assign incoming issues automatically.
+- **[Project Board Sync](docs/USE_CASES.md#2-project-board-synchronization)**: Keep your Project v2 boards in sync with repository state.
+- **[Sprint Planning](docs/USE_CASES.md#3-sprintrelease-planning)**: Organize work into milestones and target versions.
+- **[Repo Reorganization](docs/USE_CASES.md#4-repository-reorganization)**: Smoothly transfer issues between repositories.
+
 ## Standards
 
 All skills in this repository comply with the [Agent Skills Specification](https://agentskills.io/specification), ensuring consistent naming, metadata extraction, and progressive disclosure patterns.
