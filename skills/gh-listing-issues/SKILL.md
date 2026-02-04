@@ -36,6 +36,20 @@ Lists issues that have specific labels.
 gh issue list --label "bug,help wanted" --json number,title,state
 ```
 
+### Workflow: Advanced Search for Sub-issues
+
+Filters issues based on their hierarchical status.
+
+**Command**:
+
+```bash
+# List all issues that have sub-issues
+gh issue list --search "has:sub-issue" --json number,title
+
+# List all issues that do NOT have a parent (top-level issues)
+gh issue list --search "no:parent-issue" --json number,title
+```
+
 ## 3. Output Handling
 
 Use `jq` to extract specific values if needed for further automation.

@@ -36,6 +36,20 @@ Useful for tracking recent activity.
 gh issue view <issue-number> --json comments --jq '.comments[-1].body'
 ```
 
+### Workflow: Check Hierarchical Context (Sub-issues)
+
+Identifies if an issue is a sub-issue or has sub-issues of its own.
+
+**Command**:
+
+```bash
+# 1. Check if the issue has a parent
+gh api /repos/{owner}/{repo}/issues/{issue_number}/parent
+
+# 2. List all sub-issues (children)
+gh api /repos/{owner}/{repo}/issues/{issue_number}/sub_issues
+```
+
 ## 3. Output Handling
 
 The output is optimized for agent consumption via JSON.

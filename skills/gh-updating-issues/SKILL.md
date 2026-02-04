@@ -56,6 +56,25 @@ gh issue edit <issue-number> --add-label "bug,high-priority" --add-assignee "@me
 gh issue edit <issue-number> --milestone "v1.0-release"
 ```
 
+### Workflow: Update Parent Issue
+
+Changes or removes the parent relationship for an issue. Use this to move sub-issues between parents or promote them to top-level issues.
+
+**Command**:
+
+```bash
+# 1. Get the numeric ID of the child issue
+CHILD_ID=$(gh issue view <child-number> --json id -q .id)
+
+# 2. To change or set a parent:
+gh api --method POST /repos/{owner}/{repo}/issues/{new-parent-number}/sub_issues \
+  -F sub_issue_id=$CHILD_ID
+
+# 3. To remove from current parent (promote to top-level):
+gh api --method DELETE /repos/{owner}/{repo}/issues/{current-parent-number}/sub_issue \
+  -F sub_issue_id=$CHILD_ID
+```
+
 ## 3. Combined Updates
 
 You can perform multiple updates simultaneously for efficiency.

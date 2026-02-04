@@ -47,6 +47,7 @@ You should orchestrate the following atomic skills:
 - `gh-listing-projects`: Find target boards.
 - `gh-listing-issues`: Find "open" issues.
 - `gh-viewing-issue-details`: Read full context.
+- `gh-managing-sub-issues`: Link issues as sub-tasks.
 - `gh-labeling-issues`: Apply categories.
 - `gh-assigning-issues`: indicate ownership.
 - `gh-commenting-on-issues`: communicate with reporters.
@@ -57,7 +58,7 @@ You should orchestrate the following atomic skills:
 2. **Verify Project (Optional)**: If project integration is required, identify and confirm the target board.
 3. **List Open Issues**: List the most recent open issues.
 4. **Analyze Details**: For each new issue, view details.
-5. **Triage**: Determine if it's a bug, feature, or needs more info.
+5. **Triage**: Determine if it's a bug, feature, or needs more info. Identify if it should be linked as a sub-issue to an existing task.
 6. **Preview Actions**: Present proposed labels/assignments to the user.
 7. **Action**: Apply labels and assign a maintainer upon approval.
 8. **Respond**: Post a welcome/clarification comment.
