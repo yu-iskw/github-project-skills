@@ -59,6 +59,7 @@ This repository includes the following Agent Skills:
 - **[gh-listing-project-fields](skills/gh-listing-project-fields/)**: Lists custom fields in a GitHub Project. Use to discover field IDs like "Status" or "Priority".
 - **[gh-listing-projects](skills/gh-listing-projects/)**: Lists GitHub Projects (v2). Use when you need to find project IDs or view available boards.
 - **[gh-locking-conversations](skills/gh-locking-conversations/)**: Locks or unlocks an issue conversation. Use to manage noise or conclude discussions.
+- **[gh-managing-sub-issues](skills/gh-managing-sub-issues/)**: Manages GitHub sub-issues (parent-child relationships) using the GitHub REST API. Use when you need to list, add, remove, or reprioritize sub-issues for a parent issue.
 - **[gh-searching-issues](skills/gh-searching-issues/)**: Performs advanced searches for issues. Use when looking for duplicates or specific keywords across repositories.
 - **[gh-setting-milestones](skills/gh-setting-milestones/)**: Associates an issue with a milestone. Use for release planning.
 - **[gh-transferring-issues](skills/gh-transferring-issues/)**: Transfers an issue to another repository. Use for cross-project reorganization.

@@ -38,6 +38,21 @@ Sets metadata and links to a project board at creation time.
 gh issue create --title "Bug Report" --body "Steps to repro..." --label "bug" --assignee "@me" --project "Roadmap"
 ```
 
+### Workflow: Create and Link as Sub-issue
+
+Creates a new issue and immediately links it as a sub-issue to an existing parent.
+
+**Command**:
+
+```bash
+# 1. Create the issue and get its numeric ID
+NEW_ISSUE_ID=$(gh issue create --title "Sub-task" --body "Details..." --json id -q .id)
+
+# 2. Link it to the parent
+gh api --method POST /repos/{owner}/{repo}/issues/{parent_number}/sub_issues \
+  -F sub_issue_id=$NEW_ISSUE_ID
+```
+
 ## 3. Output Handling
 
 Returns the URL of the created issue.
