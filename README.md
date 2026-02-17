@@ -15,6 +15,7 @@ This repository is a collection of specialized **Agent Skills** and **Subagents*
 - **Project Synchronization**: Keep GitHub Project boards (v2) in sync with repository state, moving items through statuses and updating custom fields.
 - **Issue Lifecycle Management**: Automate common tasks such as creating, closing, locking, and transferring issues across repositories.
 - **Advanced Discovery**: Perform complex searches for issues and pull requests to identify duplicates or related work.
+- **Balanced Granularity**: Skills are consolidated into high-level "Managers" (Issues, Projects) to reduce token consumption and latency while maintaining modularity.
 
 ## Use Cases
 
@@ -31,43 +32,55 @@ All skills in this repository comply with the [Agent Skills Specification](https
 
 ## Agents
 
-This repository includes the following Agents:
-
 <!-- START-AGENTS -->
 
-- **[github-project-manager](agents/github-project-manager.md)**: Technical project manager agent. Use proactively to synchronize repository work with GitHub Project boards.
-- **[github-triage-agent](agents/github-triage-agent.md)**: Expert triage agent. Use proactively to categorize, label, and assign new issues.
+- **[github-project-manager](agents/github-project-manager/SKILL.md)**: Technical project manager agent. Use proactively to synchronize repository work with GitHub Project boards.
+- **[github-triage-agent](agents/github-triage-agent/SKILL.md)**: Expert triage agent. Use proactively to categorize, label, and assign new issues.
 <!-- END-AGENTS -->
 
 ## Agent Skills
 
-This repository includes the following Agent Skills:
-
 <!-- START-SKILLS -->
 
-- **[gh-adding-items-to-projects](skills/gh-adding-items-to-projects/)**: Adds an issue or PR to a GitHub Project. Use to link repository work to a project board.
-- **[gh-assigning-issues](skills/gh-assigning-issues/)**: Manages assignees on a GitHub issue. Use to indicate ownership or request review.
-- **[gh-closing-issues](skills/gh-closing-issues/)**: Closes a GitHub issue. Use when a task is completed or an issue is resolved.
-- **[gh-commenting-on-issues](skills/gh-commenting-on-issues/)**: Adds a comment to a GitHub issue. Use to provide updates, ask questions, or link related work.
-- **[gh-creating-issues](skills/gh-creating-issues/)**: Creates a new GitHub issue. Use when a new task, bug, or feature request needs to be tracked.
-- **[gh-creating-project-drafts](skills/gh-creating-project-drafts/)**: Creates a draft issue item in a GitHub Project. Use for items that don't yet have a corresponding repository issue.
-- **[gh-labeling-issues](skills/gh-labeling-issues/)**: Manages labels on a GitHub issue. Use for triage and categorization.
-- **[gh-linking-branches-to-issues](skills/gh-linking-branches-to-issues/)**: Creates and links a development branch to an issue. Use to start implementation work.
-- **[gh-listing-issues](skills/gh-listing-issues/)**: Lists GitHub issues with optional filtering. Use when you need to browse open, closed, or specifically labeled issues in a repository.
-- **[gh-listing-labels](skills/gh-listing-labels/)**: Lists available labels in a repository. Use to discover valid labels for triage.
-- **[gh-listing-milestones](skills/gh-listing-milestones/)**: Lists milestones in a repository. Use to track progress against release goals.
-- **[gh-listing-project-fields](skills/gh-listing-project-fields/)**: Lists custom fields in a GitHub Project. Use to discover field IDs like "Status" or "Priority".
-- **[gh-listing-projects](skills/gh-listing-projects/)**: Lists GitHub Projects (v2). Use when you need to find project IDs or view available boards.
-- **[gh-locking-conversations](skills/gh-locking-conversations/)**: Locks or unlocks an issue conversation. Use to manage noise or conclude discussions.
+- **[gh-issue-management](skills/gh-issue-management/)**: Comprehensive management of GitHub issues. Use to create, update, close, list, search, view, and comment on issues in a single skill.
+- **[gh-project-management](skills/gh-project-management/)**: Comprehensive management of GitHub Projects (v2). Use to list projects, view items, add items, update fields, and manage project structure in a single skill.
 - **[gh-managing-sub-issues](skills/gh-managing-sub-issues/)**: Manages GitHub sub-issues (parent-child relationships) using the GitHub REST API. Use when you need to list, add, remove, or reprioritize sub-issues for a parent issue.
-- **[gh-searching-issues](skills/gh-searching-issues/)**: Performs advanced searches for issues. Use when looking for duplicates or specific keywords across repositories.
-- **[gh-setting-milestones](skills/gh-setting-milestones/)**: Associates an issue with a milestone. Use for release planning.
-- **[gh-transferring-issues](skills/gh-transferring-issues/)**: Transfers an issue to another repository. Use for cross-project reorganization.
-- **[gh-updating-issues](skills/gh-updating-issues/)**: Updates existing GitHub issues (title, body, labels, assignees, milestones, and projects). Use to refine issue details or synchronize with project boards.
-- **[gh-updating-project-fields](skills/gh-updating-project-fields/)**: Updates a field value for an item in a GitHub Project. Use to move items between statuses or set custom field data.
-- **[gh-viewing-issue-details](skills/gh-viewing-issue-details/)**: Retrieves detailed information about a specific GitHub issue. Use when you need to read the body, comments, or labels of an issue.
-- **[gh-viewing-project-items](skills/gh-viewing-project-items/)**: Lists items within a GitHub Project. Use when you need to see which issues or PRs are on a board.
+- **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and git remote to ensure the agent is operating in the correct account and repository.
+- **[gh-linking-branches-to-issues](skills/gh-linking-branches-to-issues/)**: Creates and links a development branch to an issue. Use to start implementation work.
 <!-- END-SKILLS -->
+
+## Synchronization
+
+You can synchronize the skills and agents in this repository with your local AI agents (like Cursor, Claude Code, or Gemini CLI) using the provided synchronization tool. This tool wraps the `[skills](https://npmjs.org/package/skills)` npm package.
+
+### Quick Start
+
+To install all skills and agents from this repository to your local agents:
+
+```bash
+make sync
+```
+
+To install them globally (available across all projects):
+
+```bash
+make sync-global
+```
+
+### Advanced Usage
+
+You can use the `scripts/sync.sh` script directly for more control:
+
+```bash
+# Install to specific agents
+./scripts/sync.sh install --agent cursor --agent claude-code
+
+# Reinstall (remove and then install)
+./scripts/sync.sh reinstall --agent cursor
+
+# Install skills from an external GitHub repository
+./scripts/sync.sh install vercel-labs/agent-skills
+```
 
 ## Development
 
@@ -77,4 +90,8 @@ This project uses [uv](https://github.com/astral-sh/uv) for Python dependency ma
 
 - `make format`: Format the codebase using `trunk fmt`.
 - `make lint`: Check for linting issues using `trunk check`.
-- `make validate`: Validate all agent skills under the `skills/` directory.
+- `make validate`: Validate all agent skills under the `skills/` and `agents/` directories.
+- `make sync`: Synchronize local skills with target agents.
+- `make sync-global`: Synchronize local skills globally.
+- `make update-skills`: Update all installed skills.
+- `make uninstall-skills`: Remove installed skills.

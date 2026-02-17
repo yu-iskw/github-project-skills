@@ -6,7 +6,7 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(dirname "$0")"
 ROOT_DIR="$(dirname "${SCRIPT_DIR}")"
-SKILLS_DIRS=("${ROOT_DIR}/skills" "${ROOT_DIR}/.cursor/skills")
+SKILLS_DIRS=("${ROOT_DIR}/skills")
 
 found=0
 failed=0
