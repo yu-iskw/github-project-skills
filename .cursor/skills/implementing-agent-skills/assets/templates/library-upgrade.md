@@ -1,6 +1,8 @@
 ---
 name: upgrading-library-name
 description: Provides a safe, multi-step workflow for upgrading [Library/Package Name]. Use when upgrading [Library Name].
+metadata:
+  pattern: pipeline
 ---
 
 # Library Upgrade: [Library Name]
