@@ -1,6 +1,8 @@
 ---
 name: test-github-project-skills
 description: Comprehensive testing suite for GitHub agent skills and subagents. Executes 17 workflows and generates a detailed report.
+metadata:
+  pattern: reviewer
 ---
 
 # GitHub Agent Testing Skill

@@ -2,6 +2,8 @@
 name: lint-and-fix
 description: Run make format and make lint, then fix linter violations. Use when formatting code or fixing trunk/lint issues.
 compatibility: Requires trunk (make format, make lint).
+metadata:
+  pattern: pipeline
 ---
 
 # Lint-and-Fix
