@@ -11,5 +11,12 @@
   "agents": [
     "./agents/github-triage-agent/SKILL.md",
     "./agents/github-project-manager/SKILL.md"
+  ],
+  "skills": [
+    "./skills/gh-set-active-project/SKILL.md",
+    "./skills/gh-verifying-context/SKILL.md",
+    "./skills/gh-issue-management/SKILL.md",
+    "./skills/gh-project-management/SKILL.md",
+    "./skills/gh-linking-branches-to-issues/SKILL.md"
   ]
 }
