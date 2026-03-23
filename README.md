@@ -22,6 +22,7 @@ This repository is a collection of specialized **Agent Skills** and **Subagents*
 
 Learn how to leverage this repository for common GitHub workflows:
 
+- **[Initial Project Config Setup](docs/USE_CASES.md#0-initial-project-config-setup-one-time-per-repository)**: Run once to share project context with all team members via git.
 - **[Automated Issue Triage](docs/USE_CASES.md#1-automated-issue-triage)**: Categorize and assign incoming issues automatically.
 - **[Project Board Sync](docs/USE_CASES.md#2-project-board-synchronization)**: Keep your Project v2 boards in sync with repository state.
 - **[Sprint Planning](docs/USE_CASES.md#3-sprintrelease-planning)**: Organize work into milestones and target versions.
@@ -46,7 +47,7 @@ All skills in this repository comply with the [Agent Skills Specification](https
 - **[gh-set-active-project](skills/gh-set-active-project/)**: One-time interactive setup that writes `.github/project-config.json` to declare the active GitHub project and repository. Run once per repository to enable silent auto-verification for all subsequent sessions.
 - **[gh-issue-management](skills/gh-issue-management/)**: Comprehensive management of GitHub issues, including sub-issue hierarchies. Use to create, update, close, list, search, view, comment on, and manage parent-child relationships between issues in a single skill.
 - **[gh-project-management](skills/gh-project-management/)**: Comprehensive management of GitHub Projects (v2). Use to list projects, view items, add items, update fields, and manage project structure in a single skill.
-- **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and repository against `.github/project-config.json`. Proceeds silently when the environment matches the config; alerts only on mismatch or missing config.
+- **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and git remote against `.github/project-config.json`. Proceeds silently when the environment matches the config; alerts only on mismatch or missing config.
 - **[gh-linking-branches-to-issues](skills/gh-linking-branches-to-issues/)**: Creates and links a development branch to an issue. Use to start implementation work.
 <!-- END-SKILLS -->
 

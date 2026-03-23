@@ -69,12 +69,33 @@ _Verifies standalone skills or experimental features._
 - **CLI Reliability**: `gh` CLI commands were highly reliable for issue and project management.
 - **Bottlenecks**: The only failure was `gh issue develop`, which seems to be an environmental issue related to git remote configuration rather than a skill failure.
 
-## 5. Conclusion
+## 5. Context Verification & Config Scenarios (Added Post v1.0)
+
+_Verifies the repo-level config JSON feature introduced after the initial test run. These scenarios cover `gh-set-active-project` and the refactored `gh-verifying-context` skill._
+
+### Group C: Context Verification & Config
+
+| #  | Scenario | Status | Observation |
+| :- | :------- | :----- | :---------- |
+| 18 | Config setup via `gh-set-active-project` | EXPECTED PASS | Skill writes `.github/project-config.json` with correct `owner`, `repo`, `project_number`, `project_id`, and `set_at` fields |
+| 19 | Silent auto-verify — config matches live env | EXPECTED PASS | `gh-verifying-context` reads config, compares to `gh repo view`, produces no output, and proceeds immediately |
+| 20 | Mismatch detection — wrong repository | EXPECTED PASS | `gh-verifying-context` detects `owner` or `repo` mismatch and stops with a structured alert listing expected vs. actual values |
+| 21 | Mismatch detection — wrong GitHub account | EXPECTED PASS | `gh-verifying-context` detects account mismatch and stops with resolution options |
+| 22 | Missing config fallback | EXPECTED PASS | When `.github/project-config.json` is absent, `gh-verifying-context` prompts to run `gh-set-active-project` and does not proceed |
+| 23 | Team sharing via git pull | EXPECTED PASS | A second developer who runs `git pull` after config is committed gets the file and `gh-verifying-context` passes silently on first run |
+
+_Note: Group C scenarios are marked EXPECTED PASS based on skill design; execution results will be added after live test run._
+
+## 6. Conclusion
 
 ### Core Readiness Assessment
 
 Group A scenarios passed 100%. The core agent skills for issue and project management are ready for production use.
 
+### Config & Context Verification
+
+Group C covers the repo-level config JSON system (`gh-set-active-project` + `gh-verifying-context`). This feature eliminates the mandatory human confirmation gate that previously ran at the start of every session. Expected behaviors include silent pass on match, structured stop on mismatch, and graceful fallback when no config exists.
+
 ### Overall Assessment
 
-The system demonstrates strong capabilities in managing the GitHub project lifecycle. The atomic skill failure in branch creation should be investigated as an environmental improvement.
+The system demonstrates strong capabilities in managing the GitHub project lifecycle. The atomic skill failure in branch creation (Scenario 8) should be investigated as an environmental improvement. All Group C scenarios are expected to pass based on the mismatch-only alerting design.
