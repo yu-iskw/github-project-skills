@@ -93,6 +93,11 @@ git push
 > NOTE: The config contains only public, non-sensitive values (owner, repo, project number).
 > It is safe to commit to both public and private repositories.
 
+> GOVERNANCE: `.github/project-config.json` is listed in `.github/CODEOWNERS`. Any PR modifying
+> this file will automatically request review from the designated Code Owner before it can merge.
+> This prevents accidental or unauthorized project context changes from affecting the whole team.
+> Enable enforcement via _Settings → Branches → Require review from Code Owners_.
+
 If the repository uses branch protection rules, open a PR instead:
 
 ```bash
