@@ -75,3 +75,41 @@ EOF
   "set_at": "2026-03-23T10:00:00Z"
 }
 ```
+
+## Team Sharing Commands
+
+After writing the config, commit and push to share with all team members.
+
+### Simple push (no branch protection):
+
+```bash
+git add .github/project-config.json
+git commit -m "chore: set active GitHub project to <title> (#<number>)"
+git push
+```
+
+### Via Pull Request (branch protection enabled):
+
+```bash
+git checkout -b chore/set-active-project
+git add .github/project-config.json
+git commit -m "chore: set active GitHub project to <title> (#<number>)"
+git push -u origin chore/set-active-project
+gh pr create \
+  --title "chore: set active GitHub project" \
+  --body "Sets .github/project-config.json so all team members auto-verify silently against the correct project context."
+```
+
+## CODEOWNERS Governance
+
+To require maintainer approval on all config changes, add this line to `.github/CODEOWNERS`:
+
+```
+# Requires designated maintainer review for any project config changes
+.github/project-config.json  @<owner-or-team>
+```
+
+This ensures:
+- Any PR modifying `.github/project-config.json` automatically requests review from the listed owner/team
+- The config cannot be merged without explicit approval
+- GitHub enforces this rule when branch protection is set to "Require review from Code Owners"

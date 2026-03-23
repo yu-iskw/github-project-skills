@@ -4,20 +4,26 @@ This document provides detailed examples of how to combine the specialized agent
 
 ## 0. Initial Project Config Setup (One-Time per Repository)
 
-**Goal**: Declare the active GitHub project and repository context so that all subsequent agent sessions auto-verify silently — without repeated confirmation prompts.
+**Goal**: Declare the active GitHub project and repository context so that all team members auto-verify silently — without repeated confirmation prompts and without each member running setup independently.
 
-### Setup Workflow
+### Setup Workflow (run by a repository maintainer)
 
 1. **Run the setup skill**: Invoke `gh-set-active-project` in the root of your target repository.
 2. **Select your project**: The skill lists all available GitHub Projects (v2) for the repository owner and asks you to pick one.
 3. **Config written**: The skill writes `.github/project-config.json` with the selected owner, repo, project number, and project ID.
+4. **Commit and push**: The skill offers to commit and push the config file. Accept to share it with all team members.
+   - If branch protection is enabled, a PR is opened instead.
+   - The PR is automatically reviewed by the CODEOWNERS designated for `.github/project-config.json`.
 
-After this one-time setup:
+**After the config is merged:**
+- Any team member who runs `git pull` gets the correct context immediately — no individual setup required.
 - `gh-verifying-context` compares the live environment to the config automatically. If they match, it proceeds silently with no output.
 - `github-triage-agent` and `github-project-manager` read `project_number` from the config directly — no "which project?" prompt.
 - If the live environment ever mismatches the config (wrong account, wrong repository), the skill stops immediately with a detailed alert.
 
-To switch to a different project, re-run `gh-set-active-project` to overwrite the config.
+**Governance**: `.github/project-config.json` is protected by `.github/CODEOWNERS`. Any PR modifying the config requires review from the designated maintainer before it can merge. This prevents accidental or unauthorized project context changes from affecting the whole team.
+
+To switch to a different project, re-run `gh-set-active-project` to overwrite the config and open a new PR.
 
 ---
 

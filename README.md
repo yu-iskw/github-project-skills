@@ -71,20 +71,27 @@ This installs all 5 agent skills and 2 subagents into Claude Code automatically.
 
 ### Project Config Setup (One-Time per Repository)
 
-After installing the plugin, run the following once in each repository you want to manage:
+A **repository maintainer** runs the following once per repository to establish the shared project context:
 
 ```
 gh-set-active-project
 ```
 
-This interactive skill queries your available GitHub Projects, lets you select the target, and
-writes `.github/project-config.json`. After setup:
+This interactive skill queries available GitHub Projects, lets the maintainer select the target, writes
+`.github/project-config.json`, and offers to commit and push the file so all team members receive it
+automatically via `git pull`.
 
+**After the config is committed:**
+
+- Any developer who clones or pulls the repository immediately has the correct context — no individual setup required.
 - `gh-verifying-context` auto-verifies silently on every session — no confirmation prompts.
-- All agents (`github-triage-agent`, `github-project-manager`) read the project number directly
-  from the config, eliminating repeated "which project?" questions.
+- All agents (`github-triage-agent`, `github-project-manager`) read `project_number` directly from the config.
 
-To switch to a different project, simply re-run `gh-set-active-project`.
+**Governance:** `.github/project-config.json` is listed in `.github/CODEOWNERS`, so any PR modifying
+the config automatically requests review from the designated maintainer. Enable enforcement via
+_Settings → Branches → Require review from Code Owners_.
+
+To switch to a different project, re-run `gh-set-active-project`.
 
 ### Local Development Install
 

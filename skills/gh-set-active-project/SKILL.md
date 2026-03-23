@@ -1,6 +1,6 @@
 ---
 name: gh-set-active-project
-description: Sets the active GitHub project and repository context by writing a repo-level config file at .github/project-config.json. Run once per repository to eliminate repeated context verification prompts. All subsequent agent sessions will auto-verify silently against this config.
+description: Sets the active GitHub project and repository context by writing a repo-level config file at .github/project-config.json. Run once per repository to eliminate repeated context verification prompts and share the context with all team members via git. All subsequent agent sessions will auto-verify silently against this config.
 metadata:
   pattern: tool-wrapper
 ---
@@ -19,6 +19,9 @@ environment against the config and only alerts the user when a mismatch is detec
 - **First time** setting up a repository for use with these GitHub agent skills.
 - When **switching** to a different GitHub Project (re-run to overwrite the config).
 - After changing the repository's GitHub organization or ownership.
+
+Once committed and pushed, the config is shared with all team members automatically — every
+developer who clones or pulls the repository gets the correct context without running this skill.
 
 ## 2. Workflow
 
@@ -75,9 +78,35 @@ Ensure `.github/` directory exists before writing:
 mkdir -p .github
 ```
 
-### Step 5 – Confirm Success
+### Step 5 – Commit and Share the Config
 
-Report the written config to the user:
+Ask the user: "Should I commit and push this config so all team members receive it automatically?"
+
+If the user confirms, run:
+
+```bash
+git add .github/project-config.json
+git commit -m "chore: set active GitHub project to <title> (#<number>)"
+git push
+```
+
+> NOTE: The config contains only public, non-sensitive values (owner, repo, project number).
+> It is safe to commit to both public and private repositories.
+
+If the repository uses branch protection rules, open a PR instead:
+
+```bash
+git checkout -b chore/set-active-project
+git add .github/project-config.json
+git commit -m "chore: set active GitHub project to <title> (#<number>)"
+git push -u origin chore/set-active-project
+gh pr create --title "chore: set active GitHub project" \
+  --body "Sets .github/project-config.json so all team members auto-verify silently."
+```
+
+### Step 6 – Confirm Success
+
+Report the outcome to the user:
 
 ```
 Active project set successfully:
@@ -85,8 +114,10 @@ Active project set successfully:
 - Repository:     <repo>
 - Project:        <title> (#<number>)
 - Config written: .github/project-config.json
+- Committed:      yes / no (pushed to <branch>)
 
-Future sessions will auto-verify silently. No confirmation prompts unless a mismatch is detected.
+All team members will auto-verify silently after pulling this change.
+No confirmation prompts unless a mismatch is detected.
 ```
 
 ## 3. Reference
