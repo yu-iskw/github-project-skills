@@ -1,0 +1,15 @@
+{
+  "name": "github-project-skills",
+  "description": "Agent skills and subagents for automating GitHub issues, project boards, and workflows using the GitHub CLI.",
+  "version": "1.0.0",
+  "author": {
+    "name": "yu-iskw"
+  },
+  "repository": "https://github.com/yu-iskw/github-project-skills",
+  "license": "Apache-2.0",
+  "keywords": ["github", "project-management", "issues", "triage", "workflow", "gh-cli"],
+  "agents": [
+    "./agents/github-triage-agent/SKILL.md",
+    "./agents/github-project-manager/SKILL.md"
+  ]
+}
