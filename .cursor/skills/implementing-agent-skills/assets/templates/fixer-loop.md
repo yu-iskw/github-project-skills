@@ -1,6 +1,8 @@
 ---
 name: fixing-error-type-loop
 description: Runs an autonomous fix-and-verify loop for [Error Type/Lint]. Use when fixing recurring errors.
+metadata:
+  pattern: pipeline
 ---
 
 # Fixer Loop: [Error Type]

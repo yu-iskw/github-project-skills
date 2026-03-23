@@ -1,6 +1,8 @@
 ---
 name: gh-project-management
 description: Comprehensive management of GitHub Projects (v2). Use to list projects, view items, add items, update fields, and manage project structure in a single skill.
+metadata:
+  pattern: tool-wrapper
 ---
 
 # GitHub Project Management
@@ -62,15 +64,7 @@ gh project item-create <project-number> --owner <owner> --title "Draft Title" --
 
 ## 3. Reference Table of Actions
 
-| Action             | CLI Command                      | Key Flags / Notes                                                         |
-| :----------------- | :------------------------------- | :------------------------------------------------------------------------ |
-| **List Projects**  | `gh project list`                | `--owner` (required), `--json`                                            |
-| **List Items**     | `gh project item-list`           | `<number>`, `--owner`, `--json`                                           |
-| **Add Item**       | `gh project item-add`            | `<number>`, `--owner`, `--url` (issue/PR)                                 |
-| **Edit Item**      | `gh project item-edit`           | `--id` (item), `--field-id`, `--text/number/date/single-select-option-id` |
-| **List Fields**    | `gh project field-list`          | `<number>`, `--owner`, `--json`                                           |
-| **Create Draft**   | `gh project item-create`         | `<number>`, `--owner`, `--title`, `--body`                                |
-| **Archive/Delete** | `gh project item-archive/delete` | `--id` (item), `--project-id`                                             |
+See [references/commands.md](references/commands.md) for the full action reference table, ID type guide, and list of state-changing commands that require approval.
 
 ## 4. Output Handling
 

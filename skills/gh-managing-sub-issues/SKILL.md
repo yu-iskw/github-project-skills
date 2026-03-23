@@ -1,6 +1,8 @@
 ---
 name: gh-managing-sub-issues
 description: Manages GitHub sub-issues (parent-child relationships) using the GitHub REST API. Use when you need to list, add, remove, or reprioritize sub-issues for a parent issue.
+metadata:
+  pattern: tool-wrapper
 ---
 
 # Managing GitHub Sub-issues
@@ -71,8 +73,6 @@ gh api --method PATCH /repos/{owner}/{repo}/issues/{parent_number}/sub_issues/pr
   -F before_id={before_id}
 ```
 
-## 3. Error Handling
+## 3. Reference
 
-- **Invalid ID**: If the API returns a 404 or validation error, double-check that you are using the `id` (integer) and not the `number`.
-- **Permissions**: Ensure the token has `write` access to the repository for state-changing operations.
-- **Limit Exceeded**: GitHub currently allows up to 100 sub-issues per parent and up to 8 levels of nesting.
+See [references/api-endpoints.md](references/api-endpoints.md) for the full endpoint reference table, ID disambiguation guide, limits, and error code reference.

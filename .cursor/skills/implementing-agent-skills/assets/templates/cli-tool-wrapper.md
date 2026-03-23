@@ -1,6 +1,8 @@
 ---
 name: wrapping-cli-tool-name
 description: Wraps [CLI Tool Name] for agent use with help checks and safety. Use when [trigger scenarios].
+metadata:
+  pattern: tool-wrapper
 ---
 
 # [CLI Tool Name] Wrapper

@@ -1,6 +1,8 @@
 ---
 name: implementing-agent-skills
 description: Implements new Agent Skills for the project. Identifies the AI coding tool (Cursor, Claude Code, Gemini CLI), ensures specification compliance, and provides specialized templates. Use when creating, authoring, or adding a new skill, or when the user asks about Agent Skills format or SKILL.md.
+metadata:
+  pattern: pipeline
 ---
 
 # Implementing Agent Skills
@@ -94,13 +96,14 @@ See [references/best-practices.md](references/best-practices.md) for detailed na
 
 Select the template that best matches the skill's purpose:
 
-| Template                                                    | Purpose                                          |
-| :---------------------------------------------------------- | :----------------------------------------------- |
-| [generic.md](assets/templates/generic.md)                   | Standard boilerplate for any skill.              |
-| [cli-tool-wrapper.md](assets/templates/cli-tool-wrapper.md) | Wrapping CLI tools with help checks and safety.  |
-| [sop-workflow.md](assets/templates/sop-workflow.md)         | Checklists and SOPs for hybrid/manual processes. |
-| [library-upgrade.md](assets/templates/library-upgrade.md)   | Safe, multi-step dependency upgrades.            |
-| [code-review.md](assets/templates/code-review.md)           | Reviewing code against project standards.        |
-| [security-audit.md](assets/templates/security-audit.md)     | Systematic vulnerability scanning and reporting. |
-| [fixer-loop.md](assets/templates/fixer-loop.md)             | Autonomous "test-analyze-fix" loops (TDD/Lint).  |
-| [docs-sync.md](assets/templates/docs-sync.md)               | Keeping documentation in sync with source code.  |
+| Template                                                      | Pattern      | Purpose                                                  |
+| :------------------------------------------------------------ | :----------- | :------------------------------------------------------- |
+| [generic.md](assets/templates/generic.md)                     | (any)        | Standard boilerplate for any skill.                      |
+| [cli-tool-wrapper.md](assets/templates/cli-tool-wrapper.md)   | tool-wrapper | Wrapping CLI tools with help checks and safety.          |
+| [sop-workflow.md](assets/templates/sop-workflow.md)           | pipeline     | Checklists and SOPs for hybrid/manual processes.         |
+| [library-upgrade.md](assets/templates/library-upgrade.md)     | pipeline     | Safe, multi-step dependency upgrades.                    |
+| [code-review.md](assets/templates/code-review.md)             | reviewer     | Reviewing code against project standards.                |
+| [security-audit.md](assets/templates/security-audit.md)       | reviewer     | Systematic vulnerability scanning and reporting.         |
+| [fixer-loop.md](assets/templates/fixer-loop.md)               | pipeline     | Autonomous "test-analyze-fix" loops (TDD/Lint).          |
+| [docs-sync.md](assets/templates/docs-sync.md)                 | generator    | Keeping documentation in sync with source code.          |
+| [inversion.md](assets/templates/inversion.md)                 | inversion    | Interview-first workflows requiring upfront user input.  |

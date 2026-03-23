@@ -1,6 +1,8 @@
 ---
 name: gh-verifying-context
 description: Verifies the current GitHub authentication status and git remote to ensure the agent is operating in the correct account and repository. Use at the start of every session.
+metadata:
+  pattern: tool-wrapper
 ---
 
 # Verifying GitHub Context
@@ -26,12 +28,6 @@ Retrieves current login and remote URLs.
 gh auth status && git remote -v
 ```
 
-## 3. Output Handling
+## 3. Reference
 
-The agent should parse the output and present it clearly:
-
-- **Logged in as**: [username]
-- **Active Repository**: [owner/repo]
-- **Remotes**: [origin URL]
-
-If the user or repository does not match the expected context for the task (e.g., work-related task in a personal repo), the agent MUST STOP and alert the user.
+See [references/commands.md](references/commands.md) for the full command reference, output parsing format, and stop conditions table.

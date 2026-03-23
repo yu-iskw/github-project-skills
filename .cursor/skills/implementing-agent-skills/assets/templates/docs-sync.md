@@ -1,6 +1,8 @@
 ---
 name: syncing-docs-target
 description: Keeps [Documentation Path] in sync with [Source Path]. Use when code changes affect documentation.
+metadata:
+  pattern: generator
 ---
 
 # Documentation Sync: [Target]
