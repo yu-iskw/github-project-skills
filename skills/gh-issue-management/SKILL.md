@@ -1,6 +1,6 @@
 ---
 name: gh-issue-management
-description: Comprehensive management of GitHub issues. Use to create, update, close, list, search, view, and comment on issues in a single skill.
+description: Comprehensive management of GitHub issues, including sub-issue hierarchies. Use to create, update, close, list, search, view, comment on, and manage parent-child relationships between issues in a single skill.
 metadata:
   pattern: tool-wrapper
 ---
@@ -68,9 +68,38 @@ gh issue comment <issue-number> --body "Implementation finished."
 gh issue close <issue-number> --reason "completed"
 ```
 
+### Workflow: Manage Sub-issues
+
+Manages parent-child relationships between issues. Since sub-issues are not yet first-class flags in `gh issue` commands, these operations use `gh api` directly.
+
+> **ID Disambiguation**: Sub-issue API calls require the database ID (an internal integer), not the issue number shown in the UI. Retrieve it with:
+> ```bash
+> gh issue view <issue-number> --json id --jq '.id'
+> ```
+
+**Commands**:
+
+```bash
+# List sub-issues of a parent
+gh api /repos/{owner}/{repo}/issues/{issue_number}/sub_issues
+
+# Add an existing issue as a sub-issue
+gh api --method POST /repos/{owner}/{repo}/issues/{parent_number}/sub_issues \
+  -F sub_issue_id={sub_issue_id}
+
+# Remove a sub-issue from its parent
+gh api --method DELETE /repos/{owner}/{repo}/issues/{parent_number}/sub_issue \
+  -F sub_issue_id={sub_issue_id}
+
+# Reprioritize a sub-issue within the parent's list
+gh api --method PATCH /repos/{owner}/{repo}/issues/{parent_number}/sub_issues/priority \
+  -F sub_issue_id={sub_issue_id} \
+  -F after_id={after_id}
+```
+
 ## 3. Reference Table of Actions
 
-See [references/commands.md](references/commands.md) for the full action reference table and list of state-changing commands that require approval.
+See [references/commands.md](references/commands.md) for the full action reference table, sub-issues API endpoints, and list of state-changing commands that require approval.
 
 ## 4. Output Handling
 

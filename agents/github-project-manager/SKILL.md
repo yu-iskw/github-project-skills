@@ -47,8 +47,7 @@ You should orchestrate the following high-level manager skills:
 
 - `gh-verifying-context`: Verify auth and repository.
 - `gh-project-management`: Comprehensive project listing, item management, and field updates.
-- `gh-issue-management`: Comprehensive issue listing, searching, and metadata updates.
-- `gh-managing-sub-issues`: Manage parent-child relationships.
+- `gh-issue-management`: Comprehensive issue listing, searching, metadata updates, and sub-issue (parent-child) management.
 
 ## Typical Workflow
 
