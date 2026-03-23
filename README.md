@@ -22,10 +22,11 @@ This repository is a collection of specialized **Agent Skills** and **Subagents*
 
 Learn how to leverage this repository for common GitHub workflows:
 
-- **[Automated Issue Triage](docs/USE_CASES.md#1-automated-issue-triage)**: Categorize and assign incoming issues automatically.
-- **[Project Board Sync](docs/USE_CASES.md#2-project-board-synchronization)**: Keep your Project v2 boards in sync with repository state.
-- **[Sprint Planning](docs/USE_CASES.md#3-sprintrelease-planning)**: Organize work into milestones and target versions.
-- **[Repo Reorganization](docs/USE_CASES.md#4-repository-reorganization)**: Smoothly transfer issues between repositories.
+- **[Initial Project Config Setup](docs/USE_CASES.md#0-initial-project-config-setup-one-time-per-repository)**: One-time setup to declare the active project and enable silent auto-verification.
+- **[Automated Issue Triage](docs/USE_CASES.md#1-automated-issue-triage)**: Categorize and assign incoming issues automatically using `gh-issue-management`.
+- **[Project Board Sync](docs/USE_CASES.md#2-project-board-synchronization)**: Keep your Project v2 boards in sync with repository state using `gh-project-management`.
+- **[Sprint Planning](docs/USE_CASES.md#3-sprintrelease-planning)**: Organize work into milestones and target versions using `gh-issue-management` and `gh-project-management`.
+- **[Repo Reorganization](docs/USE_CASES.md#4-repository-reorganization)**: Smoothly transfer issues between repositories using `gh-issue-management`.
 
 ## Standards
 
