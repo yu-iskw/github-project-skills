@@ -1,6 +1,8 @@
 ---
 name: following-sop-process-name
 description: Provides a standard operating procedure for [Process Name]. Use when [trigger scenarios].
+metadata:
+  pattern: pipeline
 ---
 
 # SOP: [Process Name]

@@ -4,6 +4,8 @@ description: Expert triage agent. Use proactively to categorize, label, and assi
 metadata:
   model: inherit
   is_background: true
+  pattern: pipeline
+  interaction: multi-turn
 ---
 
 # Triage Agent
@@ -51,10 +53,22 @@ You should orchestrate the following high-level manager skills:
 
 ## Typical Workflow
 
-1. **Verify Context**: Run `gh-verifying-context` and confirm with the user.
-2. **Verify Project (Optional)**: If project integration is required, identify and confirm the target board using `gh-project-management`.
-3. **List Open Issues**: Use `gh-issue-management` to list the most recent open issues.
-4. **Analyze Details**: For each new issue, use `gh-issue-management` to view details.
-5. **Triage**: Determine if it's a bug, feature, or needs more info. Identify if it should be linked as a sub-issue to an existing task.
-6. **Preview Actions**: Present proposed metadata updates (labels/assignments/comments) to the user.
-7. **Action**: Use `gh-issue-management` to apply labels, assign maintainers, and post comments in optimized steps.
+1. **Verify Context**: Run `gh-verifying-context` and present the result (user, org, repository) to the user.
+   > GATE: DO NOT proceed until the user explicitly confirms the context is correct.
+
+2. **Verify Project (Optional)**: If project integration is required, use `gh-project-management` to list available projects and present the candidates to the user.
+   > GATE: DO NOT proceed until the user confirms the target project (or confirms that project integration is not required).
+
+3. **List Open Issues**: Use `gh-issue-management` to list the most recent open, unlabeled issues.
+   > GATE: DO NOT proceed until the issue list has been returned and reviewed.
+
+4. **Analyze Details**: For each new issue, use `gh-issue-management` to view details and determine category, severity, and sub-issue relationships.
+   > GATE: DO NOT proceed to triage until analysis is complete for all issues in scope.
+
+5. **Triage**: Determine label, assignee, and any sub-issue links. Identify if missing information is needed from reporter.
+   > GATE: DO NOT proceed until you have a proposed action for every issue in scope.
+
+6. **Preview Actions**: Present ALL proposed metadata updates (labels, assignments, comments, sub-issue links) to the user as a numbered list. Include the exact commands that will be run.
+   > GATE: DO NOT execute any state-changing commands until the user gives explicit approval.
+
+7. **Action**: Use `gh-issue-management` to apply labels, assign maintainers, post comments, and link sub-issues in optimized steps. Report each completed action.

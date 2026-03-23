@@ -1,6 +1,8 @@
 ---
 name: auditing-security-project
 description: Performs systematic vulnerability scanning and reporting for [Project/Component]. Use when checking for vulnerabilities.
+metadata:
+  pattern: reviewer
 ---
 
 # Security Audit: [Project]

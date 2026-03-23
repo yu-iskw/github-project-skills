@@ -1,6 +1,8 @@
 ---
 name: gh-issue-management
 description: Comprehensive management of GitHub issues. Use to create, update, close, list, search, view, and comment on issues in a single skill.
+metadata:
+  pattern: tool-wrapper
 ---
 
 # GitHub Issue Management
@@ -68,19 +70,7 @@ gh issue close <issue-number> --reason "completed"
 
 ## 3. Reference Table of Actions
 
-| Action           | CLI Command             | Key Flags / Notes                                                                 |
-| :--------------- | :---------------------- | :-------------------------------------------------------------------------------- |
-| **Create**       | `gh issue create`       | `--title`, `--body`, `--label`, `--assignee`, `--project`                         |
-| **Update**       | `gh issue edit`         | `--add-label`, `--remove-label`, `--add-assignee`, `--milestone`, `--add-project` |
-| **List**         | `gh issue list`         | `--state`, `--label`, `--assignee`, `--limit`, `--json`                           |
-| **Search**       | `gh search issues`      | `QUERY`, `--state`, `--label`, `--no-project`, `--json`                           |
-| **View**         | `gh issue view`         | `<number>`, `--json`, `--web`                                                     |
-| **Comment**      | `gh issue comment`      | `--body`, `--edit-last`                                                           |
-| **Close/Reopen** | `gh issue close/reopen` | `--reason` (completed, not planned)                                               |
-| **Labels**       | `gh label list`         | Discover valid labels: `--json name,description`                                  |
-| **Milestones**   | `gh api .../milestones` | Discover milestones: `--jq '.[] \| {number, title, state}'`                       |
-| **Transfer**     | `gh issue transfer`     | `<destination-repo>`                                                              |
-| **Lock/Unlock**  | `gh issue lock/unlock`  | `--reason` (off-topic, too heated, resolved, spam)                                |
+See [references/commands.md](references/commands.md) for the full action reference table and list of state-changing commands that require approval.
 
 ## 4. Output Handling
 

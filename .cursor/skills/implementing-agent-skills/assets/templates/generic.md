@@ -4,6 +4,7 @@ description: [Third person: what it does and when to use it.] Use when [trigger 
 license: (Optional: e.g., Apache-2.0)
 compatibility: (Optional: Environment requirements)
 metadata:
+  pattern: (any)
   author: (Optional)
   version: (Optional)
 allowed-tools: (Optional: space-delimited list of tools)

@@ -102,3 +102,51 @@ skills-ref validate ./my-skill
 ```
 
 This ensures the frontmatter and naming conventions strictly follow the specification.
+
+## Design Patterns
+
+When creating a new skill, choose the pattern that best matches the skill's interaction model and declare it in the frontmatter under `metadata: pattern:`.
+
+### Pattern Decision Guide
+
+| Ask yourself | If YES | Pattern |
+| :--- | :--- | :--- |
+| Does this skill wrap a CLI tool or external API with a reference table of commands? | Yes | `tool-wrapper` |
+| Does this skill fill in a template or generate output from a fixed structure? | Yes | `generator` |
+| Does this skill evaluate, score, or audit something against a checklist? | Yes | `reviewer` |
+| Does this skill need to ask the user multiple questions before acting? | Yes | `inversion` |
+| Does this skill run a fixed sequence of steps where each step must complete before the next? | Yes | `pipeline` |
+
+When multiple patterns apply, use the **most specific** one. For example, a skill that wraps a CLI tool AND asks the user questions before each command is `inversion`. A skill that wraps a CLI tool and runs steps in sequence is `pipeline`.
+
+### Pattern Descriptions
+
+#### `tool-wrapper`
+
+- **When to use**: The skill's primary job is exposing a CLI tool or API to the agent. It contains a reference table of commands, flags, or endpoints.
+- **Key structural elements**: `references/commands.md` (or `references/api-endpoints.md`) extracted from SKILL.md; `Safety & Verification` section with human-in-the-loop requirement.
+- **Examples in this repo**: `gh-issue-management`, `gh-project-management`, `gh-verifying-context`
+
+#### `generator`
+
+- **When to use**: The skill produces output by filling in templates or assembling content from structured sources. Steps are: load template → collect variables → fill → output.
+- **Key structural elements**: `assets/` directory containing output templates; `references/` containing the style guide or schema the output must conform to.
+- **Examples in this repo**: `readme-sync`
+
+#### `reviewer`
+
+- **When to use**: The skill evaluates something (code, configuration, test results) against an external checklist. It produces a scored or categorized report.
+- **Key structural elements**: `references/review-checklist.md` loaded at review time; severity levels (error / warning / info) in the output format.
+- **Examples in this repo**: `test-github-project-skills`
+
+#### `inversion`
+
+- **When to use**: The task is irreversible or requires accurate upfront specification to avoid rework. The agent must interview the user through multiple phases before acting.
+- **Key structural elements**: Numbered interview phases; explicit `GATE:` markers after each phase; Phase 3 is always a confirmation summary; `interaction: multi-turn` in frontmatter metadata.
+- **Template**: [../assets/templates/inversion.md](../assets/templates/inversion.md)
+
+#### `pipeline`
+
+- **When to use**: The task is a strict sequential workflow. Each step depends on the previous. Gate conditions prevent proceeding until user confirms or a condition is met.
+- **Key structural elements**: Numbered steps with `> GATE:` markers; explicit conditions ("DO NOT proceed until..."); copyable `[ ]` checklist for agent progress tracking.
+- **Examples in this repo**: `github-triage-agent`, `github-project-manager`, `implementing-agent-skills`

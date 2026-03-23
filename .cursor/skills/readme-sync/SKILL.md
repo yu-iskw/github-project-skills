@@ -1,6 +1,8 @@
 ---
 name: readme-sync
 description: Synchronizes the list of Agent Skills in the root README.md with the actual skills present in the codebase.
+metadata:
+  pattern: generator
 ---
 
 # README Sync

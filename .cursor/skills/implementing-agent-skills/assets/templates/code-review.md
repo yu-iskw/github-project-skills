@@ -1,6 +1,8 @@
 ---
 name: reviewing-code-topic
 description: Reviews code for [Topic/Standards] and project conventions. Use when reviewing pull requests or code changes.
+metadata:
+  pattern: reviewer
 ---
 
 # Code Review: [Topic]
