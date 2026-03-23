@@ -47,9 +47,8 @@ If your task involves moving issues to a project board or organizing them within
 You should orchestrate the following high-level manager skills:
 
 - `gh-verifying-context`: Verify auth and repository.
-- `gh-issue-management`: Comprehensive issue listing, viewing, labeling, assigning, and commenting.
+- `gh-issue-management`: Comprehensive issue listing, viewing, labeling, assigning, commenting, and sub-issue linking.
 - `gh-project-management`: Comprehensive project listing and item management.
-- `gh-managing-sub-issues`: Link issues as sub-tasks.
 
 ## Typical Workflow
 

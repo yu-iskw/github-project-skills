@@ -42,9 +42,8 @@ All skills in this repository comply with the [Agent Skills Specification](https
 
 <!-- START-SKILLS -->
 
-- **[gh-issue-management](skills/gh-issue-management/)**: Comprehensive management of GitHub issues. Use to create, update, close, list, search, view, and comment on issues in a single skill.
+- **[gh-issue-management](skills/gh-issue-management/)**: Comprehensive management of GitHub issues, including sub-issue hierarchies. Use to create, update, close, list, search, view, comment on, and manage parent-child relationships between issues in a single skill.
 - **[gh-project-management](skills/gh-project-management/)**: Comprehensive management of GitHub Projects (v2). Use to list projects, view items, add items, update fields, and manage project structure in a single skill.
-- **[gh-managing-sub-issues](skills/gh-managing-sub-issues/)**: Manages GitHub sub-issues (parent-child relationships) using the GitHub REST API. Use when you need to list, add, remove, or reprioritize sub-issues for a parent issue.
 - **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and git remote to ensure the agent is operating in the correct account and repository.
 - **[gh-linking-branches-to-issues](skills/gh-linking-branches-to-issues/)**: Creates and links a development branch to an issue. Use to start implementation work.
 <!-- END-SKILLS -->
@@ -66,7 +65,7 @@ This repository is available as a **Claude Code plugin**. Install it directly fr
 /reload-plugins
 ```
 
-This installs all 5 agent skills and 2 subagents into Claude Code automatically.
+This installs all 4 agent skills and 2 subagents into Claude Code automatically.
 
 ### Local Development Install
 
