@@ -49,37 +49,31 @@ All skills in this repository comply with the [Agent Skills Specification](https
 - **[gh-linking-branches-to-issues](skills/gh-linking-branches-to-issues/)**: Creates and links a development branch to an issue. Use to start implementation work.
 <!-- END-SKILLS -->
 
-## Synchronization
+## Installation
 
-You can synchronize the skills and agents in this repository with your local AI agents (like Cursor, Claude Code, or Gemini CLI) using the provided synchronization tool. This tool wraps the `[skills](https://npmjs.org/package/skills)` npm package.
+### Claude Code Plugin (Recommended)
 
-### Quick Start
+This repository is available as a **Claude Code plugin**. Install it directly from the built-in custom marketplace:
 
-To install all skills and agents from this repository to your local agents:
+```shell
+# 1. Add this repository as a custom marketplace
+/plugin marketplace add yu-iskw/github-project-skills
 
-```bash
-make sync
+# 2. Install the plugin
+/plugin install github-project-skills@github-project-skills
+
+# 3. Activate (reload plugins)
+/reload-plugins
 ```
 
-To install them globally (available across all projects):
+This installs all 5 agent skills and 2 subagents into Claude Code automatically.
 
-```bash
-make sync-global
-```
+### Local Development Install
 
-### Advanced Usage
+To load the plugin from a local clone during development:
 
-You can use the `scripts/sync.sh` script directly for more control:
-
-```bash
-# Install to specific agents
-./scripts/sync.sh install --agent cursor --agent claude-code
-
-# Reinstall (remove and then install)
-./scripts/sync.sh reinstall --agent cursor
-
-# Install skills from an external GitHub repository
-./scripts/sync.sh install vercel-labs/agent-skills
+```shell
+claude --plugin-dir /path/to/github-project-skills
 ```
 
 ## Development
