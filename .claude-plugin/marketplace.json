@@ -1,0 +1,25 @@
+{
+  "name": "github-project-skills",
+  "owner": {
+    "name": "yu-iskw"
+  },
+  "metadata": {
+    "description": "Marketplace for GitHub project management agent skills and subagents."
+  },
+  "plugins": [
+    {
+      "name": "github-project-skills",
+      "source": {
+        "source": "github",
+        "repo": "yu-iskw/github-project-skills"
+      },
+      "description": "Agent skills and subagents for automating GitHub issues, project boards, and workflows using the GitHub CLI.",
+      "version": "1.0.0",
+      "author": {
+        "name": "yu-iskw"
+      },
+      "license": "Apache-2.0",
+      "keywords": ["github", "project-management", "issues", "triage", "workflow", "gh-cli"]
+    }
+  ]
+}
