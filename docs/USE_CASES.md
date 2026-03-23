@@ -2,18 +2,45 @@
 
 This document provides detailed examples of how to combine the specialized agents and atomic skills in this repository to solve real-world GitHub management challenges.
 
+## 0. Initial Project Config Setup (One-Time per Repository)
+
+**Goal**: Declare the active GitHub project and repository context so that all team members auto-verify silently — without repeated confirmation prompts and without each member running setup independently.
+
+### Setup Workflow (run by a repository maintainer)
+
+1. **Run the setup skill**: Invoke `gh-set-active-project` in the root of your target repository.
+2. **Select your project**: The skill lists all available GitHub Projects (v2) for the repository owner and asks you to pick one.
+3. **Config written**: The skill writes `.github/project-config.json` with the selected owner, repo, project number, and project ID.
+4. **Commit and push**: The skill offers to commit and push the config file. Accept to share it with all team members.
+   - If branch protection is enabled, a PR is opened instead.
+   - The PR is automatically reviewed by the CODEOWNERS designated for `.github/project-config.json`.
+
+**After the config is merged:**
+- Any team member who runs `git pull` gets the correct context immediately — no individual setup required.
+- `gh-verifying-context` compares the live environment to the config automatically. If they match, it proceeds silently with no output.
+- `github-triage-agent` and `github-project-manager` read `project_number` from the config directly — no "which project?" prompt.
+- If the live environment ever mismatches the config (wrong account, wrong repository), the skill stops immediately with a detailed alert.
+
+**Governance**: `.github/project-config.json` is protected by `.github/CODEOWNERS`. Any PR modifying the config requires review from the designated maintainer before it can merge. This prevents accidental or unauthorized project context changes from affecting the whole team.
+
+To switch to a different project, re-run `gh-set-active-project` to overwrite the config and open a new PR.
+
+---
+
 ## 1. Automated Issue Triage
 
 **Goal**: Automatically categorize and assign incoming issues to the right maintainers without manual intervention.
 
 ### Triage Workflow
 
-1. **Detection**: `github-triage-agent` identifies new, unlabeled issues using `gh-listing-issues`.
-2. **Analysis**: The agent uses `gh-viewing-issue-details` to read the full context.
-3. **Categorization**:
-   - `gh-labeling-issues` is used to apply type labels (e.g., `bug`, `feature`, `documentation`).
-   - `gh-assigning-issues` is used to assign the issue based on the expertise detected in the content.
-4. **Engagement**: `gh-commenting-on-issues` is used to post a welcome message or request missing information if the issue template wasn't followed.
+0. **Prerequisite**: Run `gh-set-active-project` once to create `.github/project-config.json`.
+1. **Context**: `gh-verifying-context` auto-verifies against the config silently. Proceeds immediately if the environment matches.
+2. **Detection**: `github-triage-agent` identifies new, unlabeled issues using `gh-issue-management`.
+3. **Analysis**: The agent uses `gh-issue-management` to read the full context of each issue.
+4. **Categorization**:
+   - Apply type labels (e.g., `bug`, `feature`, `documentation`) via `gh-issue-management`.
+   - Assign the issue based on the expertise detected in the content.
+5. **Engagement**: Post a welcome message or request missing information via `gh-issue-management` if the issue template wasn't followed.
 
 ---
 
@@ -23,11 +50,12 @@ This document provides detailed examples of how to combine the specialized agent
 
 ### Sync Workflow
 
-1. **Verification**: `github-project-manager` verifies the target project using `gh-listing-projects`.
-2. **Discovery**: `gh-searching-issues` finds open issues that are not yet on the project board.
-3. **Ingestion**: `gh-adding-items-to-projects` links missing issues to the board.
+0. **Prerequisite**: Run `gh-set-active-project` once to create `.github/project-config.json`.
+1. **Context**: `gh-verifying-context` auto-verifies against the config silently. The target project is read from `project_number` in the config — no manual selection required.
+2. **Discovery**: `gh-issue-management` finds open issues that are not yet on the project board.
+3. **Ingestion**: `gh-project-management` links missing issues to the board.
 4. **Status Updates**:
-   - As developers close issues, `github-project-manager` uses `gh-updating-project-fields` to move items from "In Progress" to "Done".
+   - As developers close issues, `github-project-manager` uses `gh-project-management` to move items from "In Progress" to "Done".
    - It can also update custom fields like "Priority" or "Estimate" based on labels or milestones.
 
 ---

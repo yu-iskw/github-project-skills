@@ -1,0 +1,9 @@
+# CODEOWNERS
+#
+# Designates required reviewers for specific files and directories.
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Project config: changes require review from a repository maintainer.
+# Prevents accidental or unauthorized changes to the shared GitHub project context.
+# Enable enforcement via: Settings → Branches → Require review from Code Owners.
+.github/project-config.json @yu-iskw

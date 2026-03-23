@@ -11,6 +11,7 @@ This repository is a collection of specialized **Agent Skills** and **Subagents*
 ## Key Features
 
 - **Zero-Config Authentication**: Leverages the GitHub CLI (`gh` command) for authentication, eliminating the need to manage Personal Access Tokens (PATs).
+- **Repo-Level Project Config**: A single `.github/project-config.json` file declares the active GitHub project and repository context. After one-time setup, all agent sessions auto-verify silently — no repeated confirmation prompts.
 - **Triage Automation**: Automatically categorize, label, and assign incoming issues based on content analysis.
 - **Project Synchronization**: Keep GitHub Project boards (v2) in sync with repository state, moving items through statuses and updating custom fields.
 - **Issue Lifecycle Management**: Automate common tasks such as creating, closing, locking, and transferring issues across repositories.
@@ -42,9 +43,10 @@ All skills in this repository comply with the [Agent Skills Specification](https
 
 <!-- START-SKILLS -->
 
+- **[gh-set-active-project](skills/gh-set-active-project/)**: One-time interactive setup that writes `.github/project-config.json` to declare the active GitHub project and repository. Run once per repository to enable silent auto-verification for all subsequent sessions.
 - **[gh-issue-management](skills/gh-issue-management/)**: Comprehensive management of GitHub issues, including sub-issue hierarchies. Use to create, update, close, list, search, view, comment on, and manage parent-child relationships between issues in a single skill.
 - **[gh-project-management](skills/gh-project-management/)**: Comprehensive management of GitHub Projects (v2). Use to list projects, view items, add items, update fields, and manage project structure in a single skill.
-- **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and git remote to ensure the agent is operating in the correct account and repository.
+- **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and repository against `.github/project-config.json`. Proceeds silently when the environment matches the config; alerts only on mismatch or missing config.
 - **[gh-linking-branches-to-issues](skills/gh-linking-branches-to-issues/)**: Creates and links a development branch to an issue. Use to start implementation work.
 <!-- END-SKILLS -->
 
@@ -65,7 +67,31 @@ This repository is available as a **Claude Code plugin**. Install it directly fr
 /reload-plugins
 ```
 
-This installs all 4 agent skills and 2 subagents into Claude Code automatically.
+This installs all 5 agent skills and 2 subagents into Claude Code automatically.
+
+### Project Config Setup (One-Time per Repository)
+
+A **repository maintainer** runs the following once per repository to establish the shared project context:
+
+```
+gh-set-active-project
+```
+
+This interactive skill queries available GitHub Projects, lets the maintainer select the target, writes
+`.github/project-config.json`, and offers to commit and push the file so all team members receive it
+automatically via `git pull`.
+
+**After the config is committed:**
+
+- Any developer who clones or pulls the repository immediately has the correct context — no individual setup required.
+- `gh-verifying-context` auto-verifies silently on every session — no confirmation prompts.
+- All agents (`github-triage-agent`, `github-project-manager`) read `project_number` directly from the config.
+
+**Governance:** `.github/project-config.json` is listed in `.github/CODEOWNERS`, so any PR modifying
+the config automatically requests review from the designated maintainer. Enable enforcement via
+_Settings → Branches → Require review from Code Owners_.
+
+To switch to a different project, re-run `gh-set-active-project`.
 
 ### Local Development Install
 
