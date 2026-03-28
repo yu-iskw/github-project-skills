@@ -1,0 +1,23 @@
+{
+  "name": "github-project-skills",
+  "version": "1.0.0",
+  "description": "Agent skills and subagents for automating GitHub issues, project boards, and workflows using the GitHub CLI.",
+  "skills": "./skills/",
+  "author": {
+    "name": "yu-iskw",
+    "url": "https://github.com/yu-iskw"
+  },
+  "homepage": "https://github.com/yu-iskw/github-project-skills",
+  "repository": "https://github.com/yu-iskw/github-project-skills",
+  "license": "Apache-2.0",
+  "keywords": ["github", "project-management", "issues", "triage", "workflow", "gh-cli"],
+  "interface": {
+    "displayName": "GitHub Project Skills",
+    "shortDescription": "Automate GitHub issues, project boards, and workflows using the GitHub CLI.",
+    "longDescription": "A collection of agent skills for triage, project board sync, issue lifecycle management, and branch linking. Powered by the GitHub CLI — no Personal Access Token required.",
+    "developerName": "yu-iskw",
+    "category": "development",
+    "capabilities": ["code-generation", "project-management"],
+    "websiteURL": "https://github.com/yu-iskw/github-project-skills"
+  }
+}

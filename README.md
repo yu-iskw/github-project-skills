@@ -94,6 +94,19 @@ _Settings → Branches → Require review from Code Owners_.
 
 To switch to a different project, re-run `gh-set-active-project`.
 
+### Codex Plugin (OpenAI Codex)
+
+This repository is also available as a **Codex custom plugin**. Install it via the custom marketplace:
+
+1. Open **Codex** → Settings → Plugins → Add Custom Marketplace.
+2. Enter the marketplace URL:
+   ```
+   https://raw.githubusercontent.com/yu-iskw/github-project-skills/main/.agents/plugins/marketplace.json
+   ```
+3. Find **github-project-skills** in the plugin directory and click **Install**.
+
+This installs the 5 agent skills into Codex automatically.
+
 ### Local Development Install
 
 To load the plugin from a local clone during development:
