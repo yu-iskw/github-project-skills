@@ -13,10 +13,10 @@
     "./agents/github-project-manager/SKILL.md"
   ],
   "skills": [
-    "./skills/gh-set-active-project/SKILL.md",
-    "./skills/gh-verifying-context/SKILL.md",
-    "./skills/gh-issue-management/SKILL.md",
-    "./skills/gh-project-management/SKILL.md",
-    "./skills/gh-linking-branches-to-issues/SKILL.md"
+    "./skills/gh-set-active-project",
+    "./skills/gh-verifying-context",
+    "./skills/gh-issue-management",
+    "./skills/gh-project-management",
+    "./skills/gh-linking-branches-to-issues"
   ]
 }
