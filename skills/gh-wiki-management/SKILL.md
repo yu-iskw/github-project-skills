@@ -14,10 +14,10 @@ GitHub has no Wiki write REST API. Authenticate with `gh`, then clone and push `
 
 ## 1. Safety & Verification
 
-- **Mandatory Context**: Ensure `gh-verifying-context` has been run.
+- **Repository identity**: `{owner}` / `{repo}` from `gh repo view` (`.owner.login`), not the authenticated username.
 - **Human-in-the-Loop**: Present the exact `git commit` / `git push` commands before execution.
 - **Never force-push** the Wiki default branch.
-- **Empty Wiki**: If clone fails, stop. Create the first page in the GitHub Wiki UI, then retry. Do not force-push to bootstrap.
+- **Empty / disabled Wiki**: Preflight `has_wiki` and `git ls-remote`. If either fails, stop publish. Do not force-push to bootstrap. Create the first page in the GitHub Wiki UI, then retry.
 - **Concurrency**: Fetch and compare remote HEAD to the SHA captured at clone time. If it moved, abort and revalidate. Do not force.
 
 ## 2. Common Workflows
@@ -27,12 +27,14 @@ GitHub has no Wiki write REST API. Authenticate with `gh`, then clone and push `
 ```bash
 owner="$(gh repo view --json owner --jq .owner.login)"
 repo="$(gh repo view --json name --jq .name)"
-gh api "repos/${owner}/${repo}" --jq .has_wiki
+has_wiki="$(gh api "repos/${owner}/${repo}" --jq .has_wiki)"
+test "${has_wiki}" = "true"
+git ls-remote "https://github.com/${owner}/${repo}.wiki.git" HEAD >/dev/null
 gh auth setup-git
 git clone "https://github.com/${owner}/${repo}.wiki.git" wiki-work
 ```
 
-If `has_wiki` is `false` or clone returns repository-not-found, stop with bootstrap instructions.
+If `has_wiki` is `false` or `ls-remote`/`clone` returns repository-not-found (exit 128), stop with bootstrap instructions. Local verification without a live Wiki uses [scripts/test-wiki-local.sh](scripts/test-wiki-local.sh).
 
 ### Workflow: Detect Default Branch
 
@@ -59,6 +61,8 @@ git -C wiki-work diff --cached --quiet && echo "no-op" && exit 0
 git -C wiki-work commit -m "docs(wiki): knowledge maintenance"
 git -C wiki-work push origin "${DEFAULT_BRANCH}"
 ```
+
+Never `git push --force`.
 
 ### Workflow: Transactional Local Branch
 

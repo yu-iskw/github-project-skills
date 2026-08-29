@@ -16,11 +16,11 @@ without requiring human confirmation. Only mismatches or missing configs surface
 
 ## Behavior by State
 
-| State | Behavior |
-| :--- | :--- |
-| Config exists + live env matches | **Proceed silently** — no output, no gate |
-| Config exists + mismatch detected | **STOP** — alert user with details of the mismatch |
-| No config found | **Prompt once** — ask user to run `gh-set-active-project` to create the config |
+| State                                          | Behavior                                                                                                                                                          |
+| :--------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Config exists + live **repo** owner/name match | **Proceed silently** — no output, no gate                                                                                                                         |
+| Config exists + mismatch detected              | **STOP** — alert user with details of the mismatch                                                                                                                |
+| No config found                                | **Prompt once** to run `gh-set-active-project`. Triage/project agents stop. **Wiki knowledge maintenance may proceed** with `{owner}/{repo}` from `gh repo view`. |
 
 ## 1. Common Workflows
 
@@ -42,15 +42,19 @@ gh auth status && gh repo view --json owner,name
 
 **Step 3 – Compare:**
 
-- If `authenticated_user.org` matches `config.owner` AND `repo.name` matches `config.repo` →
+Compare **repository** identity, not the authenticated username. The login (`gh auth status`) is often an integration account and will not equal `config.owner`.
+
+- If `gh repo view` → `owner.login` matches `config.owner` AND `name` matches `config.repo` →
   **proceed silently** with the config values available for downstream skills.
-- If any field mismatches → **STOP** and execute the Mismatch Alert workflow below.
+- If any of those fields mismatch → **STOP** and execute the Mismatch Alert workflow below.
+- Do not require `authenticated_user == config.owner`.
 
 ### Workflow B: Mismatch Alert
 
 When the live environment does not match the config:
 
 1. Report the mismatch in detail:
+
    ```
    ⚠️  Context mismatch detected — stopping.
 
@@ -67,6 +71,7 @@ When the live environment does not match the config:
    2. Switch to the correct GitHub account: gh auth switch
    3. Navigate to the correct repository directory.
    ```
+
 2. **Do not proceed** with any GitHub operations.
 
 ### Workflow C: No Config Found
@@ -82,7 +87,9 @@ To set up context verification for this repository, run:
 This is a one-time setup. After setup, all sessions auto-verify silently.
 ```
 
-Do not proceed with GitHub operations until the config is created.
+Triage and project-board agents must not proceed until the config is created.
+
+**Exception — Wiki knowledge maintenance:** `github-knowledge-maintainer` may proceed without a project config. It resolves `{owner}` / `{repo}` from `gh repo view` and does not need `project_number`. Still STOP if a config exists and disagrees with `gh repo view`.
 
 ## 2. Output on Silent Pass
 
@@ -93,12 +100,12 @@ the config values and proceed. This is by design: the absence of a prompt means 
 
 After a successful silent pass, the following values are available for use in other skills:
 
-| Field | Source | Used By |
-| :--- | :--- | :--- |
-| `owner` | config | `gh-issue-management`, `gh-project-management` |
-| `repo` | config | `gh-issue-management`, `gh-project-management` |
-| `project_number` | config | `gh-project-management` |
-| `project_id` | config | `gh-project-management` (item-edit) |
+| Field            | Source | Used By                                        |
+| :--------------- | :----- | :--------------------------------------------- |
+| `owner`          | config | `gh-issue-management`, `gh-project-management` |
+| `repo`           | config | `gh-issue-management`, `gh-project-management` |
+| `project_number` | config | `gh-project-management`                        |
+| `project_id`     | config | `gh-project-management` (item-edit)            |
 
 ## 4. Reference
 

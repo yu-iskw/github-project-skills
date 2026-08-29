@@ -15,3 +15,8 @@ validate:
 test:
 	npm ci --prefix skills/gh-wiki-diagrams/scripts
 	bash ./skills/gh-wiki-diagrams/scripts/test-fixtures.sh
+	bash ./skills/gh-wiki-diagrams/scripts/test-parse-files.sh
+	bash ./skills/gh-wiki-management/scripts/test-wiki-local.sh
+	bash ./skills/gh-knowledge-maintain/scripts/test-evidence.sh
+	bash ./skills/gh-wiki-validate/scripts/test-validate-page.sh
+	bash ./skills/gh-knowledge-maintain/scripts/test-audit-loop.sh

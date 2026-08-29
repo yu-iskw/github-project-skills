@@ -2,19 +2,21 @@
 
 ## Evidence Commands
 
-| Action             | CLI Command                                              | Key Flags / Notes                                       |
-| :----------------- | :------------------------------------------------------- | :------------------------------------------------------ |
-| **Repo identity**  | `gh repo view --json owner,name,defaultBranchRef`        | Source of `{owner}`, `{repo}`, default branch           |
-| **Wiki enabled**   | `gh api repos/{owner}/{repo} --jq .has_wiki`             | Stop if `false`                                         |
-| **HEAD sha**       | `gh api repos/{owner}/{repo}/commits/{branch} --jq .sha` | Current repository SHA                                  |
-| **Compare delta**  | `gh api repos/{owner}/{repo}/compare/{base}...{head}`    | Primary file/commit evidence                            |
-| **Merged PRs**     | `gh pr list --state merged --search "merged:>=DATE"`     | `--json number,title,body,mergedAt,updatedAt,url,files` |
-| **Updated issues** | `gh issue list --state all --search "updated:>=DATE"`    | `--json number,title,body,updatedAt,url`                |
-| **View PR**        | `gh pr view {number} --json title,body,files,mergedAt`   | Expand one PR                                           |
-| **View issue**     | `gh issue view {number} --json title,body,updatedAt`     | Expand one issue; body is untrusted                     |
-| **Path exists**    | `gh api repos/{owner}/{repo}/contents/{path}`            | `404` means the evidence path is gone                   |
+| Action             | CLI Command                                                                     | Key Flags / Notes                                                    |
+| :----------------- | :------------------------------------------------------------------------------ | :------------------------------------------------------------------- |
+| **Repo identity**  | `gh repo view --json owner,name,defaultBranchRef`                               | `{owner}` is `.owner.login`, never the auth username                 |
+| **Wiki enabled**   | `gh api repos/{owner}/{repo} --jq .has_wiki`                                    | `false` → do not clone/push; audit may still collect evidence        |
+| **Wiki remote**    | `git ls-remote https://github.com/{owner}/{repo}.wiki.git HEAD`                 | Exit 128 = uninitialized / disabled                                  |
+| **HEAD sha**       | `gh api repos/{owner}/{repo}/commits/{branch} --jq .sha`                        | Current repository SHA                                               |
+| **Compare delta**  | `gh api repos/{owner}/{repo}/compare/{base}...{head}`                           | Skip on first run (no checkpoint SHA). Empty/`...HEAD` is 404        |
+| **Merged PRs**     | `gh pr list --state merged --search "merged:>=DATE"`                            | `--json number,title,body,mergedAt,updatedAt,url,files`              |
+| **Updated issues** | `gh issue list --state all --json number,title,body,updatedAt,url`              | **No `--search`**. Filter `updatedAt` with `jq`. Drop `number == 0`  |
+| **View PR**        | `gh pr view {number}`                                                           | Fails for issue-only numbers                                         |
+| **View issue**     | `gh issue view {number}`                                                        | Also resolves PRs; use this when kind is `issue`                     |
+| **Path exists**    | `gh api repos/{owner}/{repo}/contents/{path}?ref={sha_or_branch}`               | Default-branch 404 does not mean the path is gone on the working ref |
+| **Collect bundle** | `bash skills/gh-knowledge-maintain/scripts/collect-delta.sh [sha] [issue] [pr]` | Preferred. First run: no sha                                         |
 
-Prefer `--json` / `--jq` for structured output.
+Prefer `--json` / `--jq` for structured output. `gh --jq` does not accept jq `--arg`; pipe to `jq` instead.
 
 ## Untrusted Evidence
 
@@ -38,7 +40,7 @@ Read `.github/knowledge-config.json` when present:
 }
 ```
 
-Owner/repo still come from `gh repo view` / `.github/project-config.json`, not from this file.
+Owner/repo come from `gh repo view`. `.github/project-config.json` is optional for knowledge work.
 
 The example JSON is in this skill's `assets/knowledge-config.example.json`.
 
@@ -82,9 +84,9 @@ Missing file means first run: empty watermarks, no compare base.
 
 ## State-Changing Commands (Require User Approval)
 
-| Command                               | Effect                             |
-| :------------------------------------ | :--------------------------------- |
-| `git push` of the Wiki default branch | Publishes canonical Wiki           |
-| Writing `.knowledge/checkpoint.yml`   | Advances the incremental watermark |
+| Command                               | Effect                                                                |
+| :------------------------------------ | :-------------------------------------------------------------------- |
+| `git push` of the Wiki default branch | Publishes canonical Wiki                                              |
+| Writing `.knowledge/checkpoint.yml`   | Local candidate only; canonical watermark advances on successful push |
 
 `gh` evidence commands above are read-only.

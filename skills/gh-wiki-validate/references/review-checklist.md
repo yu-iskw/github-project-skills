@@ -13,10 +13,10 @@
 1. Page YAML metadata schema (`knowledge_schema: 1`)
 2. Unique `knowledge_id`
 3. Internal Wiki links (prefixed page stems)
-4. `gh api .../contents/{path}` for `kind: file` evidence
-5. `gh pr view` / `gh issue view` for PR/issue evidence
-6. Mermaid parse of every changed fence
-7. Checkpoint file not written before a successful default-branch push
+4. `gh api .../contents/{path}?ref={git_ref}` for `kind: file` evidence
+5. Kind-specific locators: `gh pr view` for `pull_request`, `gh issue view` for `issue` (`gh pr view` fails on issue-only numbers)
+6. Mermaid parse of every changed fence (`node skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs PAGE.md`)
+7. Checkpoint file included only in a default-branch commit that will be pushed; canonical checkpoint unchanged if push fails
 8. Secret-like patterns
 9. Mutation-size thresholds vs direct-publish config
 

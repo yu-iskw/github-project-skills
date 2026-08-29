@@ -47,8 +47,8 @@ jobs:
         run: |
           uv run bash ./scripts/validate_agent_skills.sh
 
-  mermaid-fixtures:
-    name: Mermaid Fixtures
+  knowledge-loop:
+    name: Knowledge skill loop
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -64,3 +64,6 @@ jobs:
       - name: Parse Mermaid fixtures
         shell: bash
         run: make test
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}

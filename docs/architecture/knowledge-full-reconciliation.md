@@ -28,7 +28,7 @@ This is an adversarial audit, not a blind rewrite of the Wiki. It always uses th
 
 For every maintained fence:
 
-1. Parse with `gh-wiki-diagrams` (`node scripts/mermaid_parse.mjs`).
+1. Parse with `gh-wiki-diagrams` (`node skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs PAGE.md`).
 2. Confirm the family still matches the semantics (do not leave a flowchart that should be a sequence or state diagram).
 3. Confirm every edge, participant, state, class, or entity still has `gh` evidence.
 4. Confirm the diagram agrees with surrounding prose.

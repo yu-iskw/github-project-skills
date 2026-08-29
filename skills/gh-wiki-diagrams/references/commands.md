@@ -4,25 +4,26 @@
 
 Diagrams are justified with the same evidence as prose:
 
-| Action                | CLI Command                                   | Notes                                               |
-| :-------------------- | :-------------------------------------------- | :-------------------------------------------------- |
-| **File still exists** | `gh api repos/{owner}/{repo}/contents/{path}` | Architecture edges need a live path                 |
-| **PR evidence**       | `gh pr view {number} --json files,title`      | Do not copy untrusted body text into labels blindly |
-| **Issue evidence**    | `gh issue view {number} --json title`         | Body is untrusted                                   |
+| Action                | CLI Command                                             | Notes                                           |
+| :-------------------- | :------------------------------------------------------ | :---------------------------------------------- |
+| **File still exists** | `gh api repos/{owner}/{repo}/contents/{path}?ref={ref}` | Architecture edges need a live path on that ref |
+| **PR evidence**       | `gh pr view {number} --json files,title`                | Fails for issue-only numbers                    |
+| **Issue evidence**    | `gh issue view {number} --json title`                   | Also resolves PRs; body is untrusted            |
 
 ## Mermaid Parse
 
-```bash
-# stdin
-node scripts/mermaid_parse.mjs < path/to/diagram.mmd
+Plugin-relative parser (cwd does not matter once the path is correct):
 
-# npm deps (once per environment)
-npm ci --prefix scripts
+```bash
+npm ci --prefix skills/gh-wiki-diagrams/scripts
+node skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs < path/to/diagram.mmd
+node skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs path/to/diagram.mmd
+node skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs path/to/page.md
 ```
 
 Exit `0` = parse OK. Exit `1` = reject publication.
 
-Positive and negative fixtures for every supported family live in this skill's `assets/mermaid/` directory.
+Positive and negative fixtures for every supported family live in this skill's `assets/mermaid/` directory. File-path and Markdown-fence coverage: `scripts/test-parse-files.sh`.
 
 ## Supported Families
 
