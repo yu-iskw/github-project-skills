@@ -10,3 +10,8 @@ format:
 .PHONY: validate
 validate:
 	bash ./scripts/validate_agent_skills.sh
+
+.PHONY: test
+test:
+	npm ci --prefix skills/gh-wiki-diagrams/scripts
+	bash ./skills/gh-wiki-diagrams/scripts/test-fixtures.sh

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository is a collection of specialized **Agent Skills** and **Subagents** designed to automate and streamline GitHub workflows by leveraging the **GitHub CLI (`gh`)**. These skills empower AI agents (like Cursor, Claude Code, or Gemini CLI) to interact deeply with GitHub issues, milestones, labels, and project boards, enabling autonomous project management and triage.
+This repository is a collection of specialized **Agent Skills** and **Subagents** designed to automate and streamline GitHub workflows by leveraging the **GitHub CLI (`gh`)**. These skills empower AI agents (like Cursor, Claude Code, or Gemini CLI) to interact deeply with GitHub issues, milestones, labels, project boards, and Wikis, enabling autonomous project management, triage, and knowledge maintenance.
 
 <video src="docs/assets/test-skills.mp4" controls="controls" style="max-width: 100%;">
   Your browser does not support the video tag.
@@ -16,7 +16,8 @@ This repository is a collection of specialized **Agent Skills** and **Subagents*
 - **Project Synchronization**: Keep GitHub Project boards (v2) in sync with repository state, moving items through statuses and updating custom fields.
 - **Issue Lifecycle Management**: Automate common tasks such as creating, closing, locking, and transferring issues across repositories.
 - **Advanced Discovery**: Perform complex searches for issues and pull requests to identify duplicates or related work.
-- **Balanced Granularity**: Skills are consolidated into high-level "Managers" (Issues, Projects) to reduce token consumption and latency while maintaining modularity.
+- **Wiki Knowledge Maintenance**: Keep a GitHub Wiki synchronized with repository, PR, and issue evidence using `gh`, with Mermaid diagrams as first-class knowledge.
+- **Balanced Granularity**: Skills are consolidated into high-level "Managers" (Issues, Projects, Wiki knowledge) to reduce token consumption and latency while maintaining modularity.
 
 ## Use Cases
 
@@ -27,6 +28,7 @@ Learn how to leverage this repository for common GitHub workflows:
 - **[Project Board Sync](docs/USE_CASES.md#2-project-board-synchronization)**: Keep your Project v2 boards in sync with repository state using `gh-project-management`.
 - **[Sprint Planning](docs/USE_CASES.md#3-sprintrelease-planning)**: Organize work into milestones and target versions using `gh-issue-management` and `gh-project-management`.
 - **[Repo Reorganization](docs/USE_CASES.md#4-repository-reorganization)**: Smoothly transfer issues between repositories using `gh-issue-management`.
+- **[Wiki Knowledge Maintenance](docs/USE_CASES.md#5-wiki-knowledge-maintenance)**: Reconcile Architecture Wiki pages from `gh` evidence using `gh-knowledge-maintain`.
 
 ## Standards
 
@@ -36,6 +38,7 @@ All skills in this repository comply with the [Agent Skills Specification](https
 
 <!-- START-AGENTS -->
 
+- **[github-knowledge-maintainer](agents/github-knowledge-maintainer/SKILL.md)**: Incremental GitHub Wiki knowledge maintainer. Use to reconcile Architecture Wiki pages from gh-collected repository, PR, and issue evidence, validate Mermaid, and publish with human approval.
 - **[github-project-manager](agents/github-project-manager/SKILL.md)**: Technical project manager agent. Use proactively to synchronize repository work with GitHub Project boards.
 - **[github-triage-agent](agents/github-triage-agent/SKILL.md)**: Expert triage agent. Use proactively to categorize, label, and assign new issues.
 <!-- END-AGENTS -->
@@ -44,11 +47,15 @@ All skills in this repository comply with the [Agent Skills Specification](https
 
 <!-- START-SKILLS -->
 
-- **[gh-set-active-project](skills/gh-set-active-project/)**: One-time interactive setup that writes `.github/project-config.json` to declare the active GitHub project and repository. Run once per repository to enable silent auto-verification for all subsequent sessions.
 - **[gh-issue-management](skills/gh-issue-management/)**: Comprehensive management of GitHub issues, including sub-issue hierarchies. Use to create, update, close, list, search, view, comment on, and manage parent-child relationships between issues in a single skill.
-- **[gh-project-management](skills/gh-project-management/)**: Comprehensive management of GitHub Projects (v2). Use to list projects, view items, add items, update fields, and manage project structure in a single skill.
-- **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and repository against `.github/project-config.json`. Proceeds silently when the environment matches the config; alerts only on mismatch or missing config.
+- **[gh-knowledge-maintain](skills/gh-knowledge-maintain/)**: Collects repository evidence for Wiki knowledge maintenance using the GitHub CLI. Use to load checkpoints, fetch commit/PR/issue deltas with gh, classify mutations, and advance a Wiki checkpoint only after successful publication.
 - **[gh-linking-branches-to-issues](skills/gh-linking-branches-to-issues/)**: Creates and links a development branch to an issue. Use to start implementation work.
+- **[gh-project-management](skills/gh-project-management/)**: Comprehensive management of GitHub Projects (v2). Use to list projects, view items, add items, update fields, and manage project structure in a single skill.
+- **[gh-set-active-project](skills/gh-set-active-project/)**: One-time interactive setup that writes `.github/project-config.json` to declare the active GitHub project and repository. Run once per repository to enable silent auto-verification for all subsequent sessions.
+- **[gh-verifying-context](skills/gh-verifying-context/)**: Verifies the current GitHub authentication status and repository against `.github/project-config.json`. Proceeds silently when the environment matches the config; alerts only on mismatch or missing config.
+- **[gh-wiki-diagrams](skills/gh-wiki-diagrams/)**: Inventories and updates Mermaid diagrams in GitHub Wiki pages, choosing flowchart, sequence, state, class, ER, gitGraph, gantt, journey, quadrant, or pie from knowledge semantics rather than defaulting to flowchart. Use when reconciling visual Wiki knowledge and validating Mermaid before publish.
+- **[gh-wiki-management](skills/gh-wiki-management/)**: Clones, reads, and publishes GitHub Wiki pages using gh for auth and repo metadata plus git for the Wiki repository. Use to fetch the Wiki, detect the default branch, commit low-risk changes directly, or merge a local transaction branch, never force-pushing.
+- **[gh-wiki-validate](skills/gh-wiki-validate/)**: Deterministically validates GitHub Wiki knowledge mutations before publish using gh for evidence locators and local checks for metadata, links, secrets, Mermaid parse, and checkpoint invariants. Use after reconciling Wiki pages and before any git push of the Wiki.
 <!-- END-SKILLS -->
 
 ## Installation
@@ -68,7 +75,7 @@ This repository is available as a **Claude Code plugin**. Install it directly fr
 /reload-plugins
 ```
 
-This installs all 5 agent skills and 2 subagents into Claude Code automatically.
+This installs all 9 agent skills and 3 subagents into Claude Code automatically.
 
 ### Project Config Setup (One-Time per Repository)
 
@@ -86,7 +93,7 @@ automatically via `git pull`.
 
 - Any developer who clones or pulls the repository immediately has the correct context — no individual setup required.
 - `gh-verifying-context` auto-verifies silently on every session — no confirmation prompts.
-- All agents (`github-triage-agent`, `github-project-manager`) read `project_number` directly from the config.
+- All agents (`github-triage-agent`, `github-project-manager`, `github-knowledge-maintainer`) read owner/repo (and `project_number` when needed) from the config.
 
 **Governance:** `.github/project-config.json` is listed in `.github/CODEOWNERS`, so any PR modifying
 the config automatically requests review from the designated maintainer. Enable enforcement via
@@ -111,6 +118,7 @@ This project uses [uv](https://github.com/astral-sh/uv) for Python dependency ma
 - `make format`: Format the codebase using `trunk fmt`.
 - `make lint`: Check for linting issues using `trunk check`.
 - `make validate`: Validate all agent skills under the `skills/` and `agents/` directories.
+- `make test`: Parse Mermaid fixtures for `gh-wiki-diagrams`.
 - `make sync`: Synchronize local skills with target agents.
 - `make sync-global`: Synchronize local skills globally.
 - `make update-skills`: Update all installed skills.

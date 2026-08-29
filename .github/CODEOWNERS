@@ -7,3 +7,4 @@
 # Prevents accidental or unauthorized changes to the shared GitHub project context.
 # Enable enforcement via: Settings → Branches → Require review from Code Owners.
 .github/project-config.json @yu-iskw
+.github/knowledge-config.json @yu-iskw

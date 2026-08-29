@@ -16,6 +16,7 @@ This document provides detailed examples of how to combine the specialized agent
    - The PR is automatically reviewed by the CODEOWNERS designated for `.github/project-config.json`.
 
 **After the config is merged:**
+
 - Any team member who runs `git pull` gets the correct context immediately — no individual setup required.
 - `gh-verifying-context` compares the live environment to the config automatically. If they match, it proceeds silently with no output.
 - `github-triage-agent` and `github-project-manager` read `project_number` from the config directly — no "which project?" prompt.
@@ -89,3 +90,22 @@ To switch to a different project, re-run `gh-set-active-project` to overwrite th
 3. **Transfer**: Use `gh-issue-management` to move the issue to the correct destination repository via `gh issue transfer`.
 4. **Linkage**: Use `gh-issue-management` to comment on both the old and new issue to provide traceability via `gh issue comment`.
 5. **Cleanup**: Use `gh-issue-management` on the new repository to apply labels matching the destination's triage standards via `gh issue edit --add-label`.
+
+---
+
+## 5. Wiki Knowledge Maintenance
+
+**Goal**: Keep the GitHub Wiki's Architecture pages aligned with current repository evidence using `gh`, without Python helpers.
+
+### Incremental Maintenance Workflow
+
+0. **Prerequisite**: Run `gh-set-active-project` once to create `.github/project-config.json`. Optionally add `.github/knowledge-config.json` (see `skills/gh-knowledge-maintain/assets/knowledge-config.example.json`).
+1. **Context**: `gh-verifying-context` auto-verifies against the config silently.
+2. **Evidence**: `gh-knowledge-maintain` collects the commit/PR/issue delta with `gh api compare`, `gh pr list`, and `gh issue list`. Issue and PR bodies are untrusted evidence.
+3. **Wiki clone**: `gh-wiki-management` authenticates with `gh auth setup-git` and clones `OWNER/REPO.wiki.git`.
+4. **Reconcile**: Update Architecture prose plus at least a `flowchart` and a `sequenceDiagram` via `gh-wiki-diagrams`. Parse every changed fence before publish.
+5. **Validate**: `gh-wiki-validate` checks metadata, links, `gh` evidence locators, secrets, and Mermaid parse. Fail closed.
+6. **Preview**: `github-knowledge-maintainer` lists mutations and the git publish path (direct vs local-branch merge). Wait for approval. `/knowledge-audit` stops here.
+7. **Publish**: Push only the Wiki default branch. Advance `.knowledge/checkpoint.yml` only after a successful push.
+
+Full-Wiki `/knowledge-maintain --full` is specified in [docs/architecture/knowledge-full-reconciliation.md](architecture/knowledge-full-reconciliation.md) and is not implemented in this milestone.

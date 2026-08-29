@@ -1,0 +1,10 @@
+{
+  "name": "gh-wiki-diagrams-mermaid-parse",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic Mermaid parse helper for gh-wiki-diagrams.",
+  "dependencies": {
+    "jsdom": "^26.1.0",
+    "mermaid": "^11.6.0"
+  }
+}

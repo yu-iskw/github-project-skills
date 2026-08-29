@@ -46,3 +46,21 @@ jobs:
         shell: bash
         run: |
           uv run bash ./scripts/validate_agent_skills.sh
+
+  mermaid-fixtures:
+    name: Mermaid Fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: skills/gh-wiki-diagrams/scripts/package-lock.json
+
+      - name: Parse Mermaid fixtures
+        shell: bash
+        run: make test

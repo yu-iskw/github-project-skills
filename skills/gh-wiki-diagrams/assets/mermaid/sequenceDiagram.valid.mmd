@@ -1,0 +1,7 @@
+sequenceDiagram
+    actor Runner
+    participant Maintainer
+    participant Wiki
+    Runner->>Maintainer: knowledge-maintain
+    Maintainer->>Wiki: Load checkpoint
+    Wiki-->>Maintainer: head sha

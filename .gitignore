@@ -1,1 +1,3 @@
 .todo_list/
+**/node_modules/
+.venv/

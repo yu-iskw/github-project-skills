@@ -1,14 +1,25 @@
 {
   "name": "github-project-skills",
-  "description": "Agent skills and subagents for automating GitHub issues, project boards, and workflows using the GitHub CLI.",
+  "description": "Agent skills and subagents for automating GitHub issues, project boards, Wikis, and workflows using the GitHub CLI.",
   "version": "1.0.0",
   "author": {
     "name": "yu-iskw"
   },
   "repository": "https://github.com/yu-iskw/github-project-skills",
   "license": "Apache-2.0",
-  "keywords": ["github", "project-management", "issues", "triage", "workflow", "gh-cli"],
+  "keywords": [
+    "github",
+    "project-management",
+    "issues",
+    "triage",
+    "workflow",
+    "gh-cli",
+    "wiki",
+    "knowledge",
+    "mermaid"
+  ],
   "agents": [
+    "./agents/github-knowledge-maintainer/SKILL.md",
     "./agents/github-triage-agent/SKILL.md",
     "./agents/github-project-manager/SKILL.md"
   ],
@@ -17,6 +28,10 @@
     "./skills/gh-verifying-context/SKILL.md",
     "./skills/gh-issue-management/SKILL.md",
     "./skills/gh-project-management/SKILL.md",
-    "./skills/gh-linking-branches-to-issues/SKILL.md"
+    "./skills/gh-linking-branches-to-issues/SKILL.md",
+    "./skills/gh-knowledge-maintain/SKILL.md",
+    "./skills/gh-wiki-management/SKILL.md",
+    "./skills/gh-wiki-diagrams/SKILL.md",
+    "./skills/gh-wiki-validate/SKILL.md"
   ]
 }

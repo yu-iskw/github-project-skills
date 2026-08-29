@@ -1,0 +1,6 @@
+{
+  "domain": "Architecture",
+  "checkpoint_path": ".knowledge/checkpoint.yml",
+  "direct_publish_max_files": 3,
+  "direct_publish_max_lines": 50
+}
