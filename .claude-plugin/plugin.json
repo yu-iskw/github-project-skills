@@ -24,14 +24,14 @@
     "./agents/github-project-manager/SKILL.md"
   ],
   "skills": [
-    "./skills/gh-set-active-project/SKILL.md",
-    "./skills/gh-verifying-context/SKILL.md",
-    "./skills/gh-issue-management/SKILL.md",
-    "./skills/gh-project-management/SKILL.md",
-    "./skills/gh-linking-branches-to-issues/SKILL.md",
-    "./skills/gh-knowledge-maintain/SKILL.md",
-    "./skills/gh-wiki-management/SKILL.md",
-    "./skills/gh-wiki-diagrams/SKILL.md",
-    "./skills/gh-wiki-validate/SKILL.md"
+    "./skills/gh-set-active-project",
+    "./skills/gh-verifying-context",
+    "./skills/gh-issue-management",
+    "./skills/gh-project-management",
+    "./skills/gh-linking-branches-to-issues",
+    "./skills/gh-knowledge-maintain",
+    "./skills/gh-wiki-management",
+    "./skills/gh-wiki-diagrams",
+    "./skills/gh-wiki-validate"
   ]
 }
