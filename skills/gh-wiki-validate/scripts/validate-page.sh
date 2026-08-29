@@ -33,8 +33,10 @@ if ! node "${PARSER}" "${PAGE}" >/dev/null; then
 	error "mermaid parse failed"
 fi
 
-if ! grep -q 'flowchart' "${PAGE}" || ! grep -q 'sequenceDiagram' "${PAGE}"; then
-	error "Architecture page must include flowchart and sequenceDiagram"
+if grep -E -q '^knowledge_class:[[:space:]]*architecture[[:space:]]*$' "${PAGE}"; then
+	if ! grep -q 'flowchart' "${PAGE}" || ! grep -q 'sequenceDiagram' "${PAGE}"; then
+		error "Architecture page must include flowchart and sequenceDiagram"
+	fi
 fi
 
 owner="$(gh repo view --json owner --jq .owner.login)"

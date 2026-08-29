@@ -17,7 +17,6 @@ User-facing operations (Claude Code slash commands in `commands/`):
 - `/knowledge-maintain` — incremental publish after HITL preview
 - `/knowledge-audit` — same analysis, no Wiki push and no checkpoint
 
-
 ## Objectives
 
 1. **Resolve identity** with `gh repo view` (and `gh-verifying-context` when a project config exists).

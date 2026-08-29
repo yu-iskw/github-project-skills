@@ -27,4 +27,27 @@ if bash "${VALIDATE}" "${BAD}" >/dev/null 2>&1; then
 	exit 1
 fi
 
+OTHER="${WORKDIR}/other.md"
+cat >"${OTHER}" <<'EOF'
+---
+knowledge_schema: 1
+knowledge_id: other-page
+knowledge_class: procedure
+status: active
+confidence: high
+---
+
+# Other
+
+```mermaid
+flowchart LR
+  A --> B
+```
+EOF
+
+if ! bash "${VALIDATE}" "${OTHER}" >/dev/null; then
+	echo "FAIL: non-Architecture page should not require sequenceDiagram" >&2
+	exit 1
+fi
+
 echo "validate-page-ok"
