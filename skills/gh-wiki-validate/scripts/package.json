@@ -1,0 +1,9 @@
+{
+  "name": "gh-wiki-validate-yaml",
+  "private": true,
+  "type": "module",
+  "description": "YAML frontmatter and checkpoint parser for gh-wiki-validate.",
+  "dependencies": {
+    "yaml": "^2.8.1"
+  }
+}

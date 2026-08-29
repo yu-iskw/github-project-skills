@@ -25,13 +25,10 @@ GitHub has no Wiki write REST API. Authenticate with `gh`, then clone and push `
 ### Workflow: Confirm Wiki and Clone
 
 ```bash
-owner="$(gh repo view --json owner --jq .owner.login)"
-repo="$(gh repo view --json name --jq .name)"
-has_wiki="$(gh api "repos/${owner}/${repo}" --jq .has_wiki)"
-test "${has_wiki}" = "true"
-git ls-remote "https://github.com/${owner}/${repo}.wiki.git" HEAD >/dev/null
+bash skills/gh-wiki-management/scripts/preflight.sh --require-ready
+# clone_url is in the JSON; exit 2 means publish must STOP
 gh auth setup-git
-git clone "https://github.com/${owner}/${repo}.wiki.git" wiki-work
+git clone "$(bash skills/gh-wiki-management/scripts/preflight.sh | jq -r .clone_url)" wiki-work
 ```
 
 If `has_wiki` is `false` or `ls-remote`/`clone` returns repository-not-found (exit 128), stop with bootstrap instructions. Local verification without a live Wiki uses [scripts/test-wiki-local.sh](scripts/test-wiki-local.sh).

@@ -59,9 +59,11 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: skills/gh-wiki-diagrams/scripts/package-lock.json
+          cache-dependency-path: |
+            skills/gh-wiki-diagrams/scripts/package-lock.json
+            skills/gh-wiki-validate/scripts/package-lock.json
 
-      - name: Parse Mermaid fixtures
+      - name: Run knowledge skill tests
         shell: bash
         run: make test
         env:

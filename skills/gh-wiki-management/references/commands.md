@@ -4,10 +4,10 @@
 
 | Action         | CLI Command                                  | Key Flags / Notes                         |
 | :------------- | :------------------------------------------- | :---------------------------------------- |
-| **Owner/repo** | `gh repo view --json owner,name`             | `--jq` for `.owner.login` and `.name`     |
-| **Wiki flag**  | `gh api repos/{owner}/{repo} --jq .has_wiki` | `false` means do not clone/push           |
-| **Git auth**   | `gh auth setup-git`                          | HTTPS git uses the `gh` credential helper |
-| **Auth check** | `gh auth status`                             | Must succeed before clone/push            |
+| **Owner/repo** | `bash skills/gh-knowledge-maintain/scripts/repo-identity.sh` | `--jq` for `.owner.login` and `.name`     |
+| **Wiki flag**  | `bash skills/gh-wiki-management/scripts/preflight.sh`        | `wiki_remote != ready` means do not clone/push |
+| **Git auth**   | `gh auth setup-git`                                          | HTTPS git uses the `gh` credential helper |
+| **Auth check** | `gh auth status`                                             | Must succeed before clone/push            |
 
 ## Wiki Git Commands
 

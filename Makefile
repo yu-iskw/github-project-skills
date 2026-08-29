@@ -15,8 +15,10 @@ validate:
 test:
 	bash ./scripts/test-plugin-manifest.sh
 	npm ci --prefix skills/gh-wiki-diagrams/scripts
+	npm ci --prefix skills/gh-wiki-validate/scripts
 	bash ./skills/gh-wiki-diagrams/scripts/test-fixtures.sh
 	bash ./skills/gh-wiki-diagrams/scripts/test-parse-files.sh
+	bash ./skills/gh-knowledge-maintain/scripts/test-helpers.sh
 	bash ./skills/gh-knowledge-maintain/scripts/test-evidence.sh
 	bash ./skills/gh-wiki-validate/scripts/test-validate-page.sh
 	bash ./skills/gh-knowledge-maintain/scripts/test-audit-loop.sh

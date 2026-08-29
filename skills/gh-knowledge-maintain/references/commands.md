@@ -4,17 +4,19 @@
 
 | Action             | CLI Command                                                                     | Key Flags / Notes                                                    |
 | :----------------- | :------------------------------------------------------------------------------ | :------------------------------------------------------------------- |
-| **Repo identity**  | `gh repo view --json owner,name,defaultBranchRef`                               | `{owner}` is `.owner.login`, never the auth username                 |
-| **Wiki enabled**   | `gh api repos/{owner}/{repo} --jq .has_wiki`                                    | `false` → do not clone/push; audit may still collect evidence        |
+| **Repo identity**  | `bash skills/gh-knowledge-maintain/scripts/repo-identity.sh`                    | `{owner}` is `.owner.login`, never the auth username                 |
+| **Wiki enabled**   | `bash skills/gh-wiki-management/scripts/preflight.sh`                           | `wiki_remote` is `ready` / `uninitialized` / `unavailable`           |
 | **Wiki remote**    | `git ls-remote https://github.com/{owner}/{repo}.wiki.git HEAD`                 | Exit 128 = uninitialized / disabled                                  |
-| **HEAD sha**       | `gh api repos/{owner}/{repo}/commits/{branch} --jq .sha`                        | Current repository SHA                                               |
+| **HEAD sha**       | `gh api repos/{owner}/{repo}/commits/{branch} --jq .sha`                        | Current default-branch SHA; override with `collect-delta.sh --head`  |
 | **Compare delta**  | `gh api repos/{owner}/{repo}/compare/{base}...{head}`                           | Skip on first run (no checkpoint SHA). Empty/`...HEAD` is 404        |
 | **Merged PRs**     | `gh pr list --state merged --search "merged:>=DATE"`                            | `--json number,title,body,mergedAt,updatedAt,url,files`              |
 | **Updated issues** | `gh issue list --state all --json number,title,body,updatedAt,url`              | **No `--search`**. Filter `updatedAt` with `jq`. Drop `number == 0`  |
 | **View PR**        | `gh pr view {number}`                                                           | Fails for issue-only numbers                                         |
 | **View issue**     | `gh issue view {number}`                                                        | Also resolves PRs; use this when kind is `issue`                     |
 | **Path exists**    | `gh api repos/{owner}/{repo}/contents/{path}?ref={sha_or_branch}`               | Default-branch 404 does not mean the path is gone on the working ref |
-| **Collect bundle** | `bash skills/gh-knowledge-maintain/scripts/collect-delta.sh [sha] [issue] [pr]` | Preferred. First run: no sha                                         |
+| **Collect bundle** | `bash skills/gh-knowledge-maintain/scripts/collect-delta.sh [--checkpoint FILE]` | Preferred. First run: no checkpoint. Optional `--head SHA`         |
+| **Write checkpoint** | `bash skills/gh-knowledge-maintain/scripts/write-checkpoint.sh WIKI REPO_SHA [WIKI_SHA]` | `wiki_sha` is the pages commit, never `pending`               |
+| **Publish class**  | `bash skills/gh-knowledge-maintain/scripts/publication-strategy.sh FILES LINES` | Mutation classes on stdin. `ADD_PAGE`/`ADD_DIAGRAM` → transactional  |
 
 Prefer `--json` / `--jq` for structured output. `gh --jq` does not accept jq `--arg`; pipe to `jq` instead.
 
@@ -60,6 +62,8 @@ evidence_watermarks:
 ```
 
 Invariant: `checkpoint == state that has actually been published successfully`.
+
+`wiki_sha` is the Wiki commit that published the pages (direct content commit or transactional merge). A follow-up checkpoint-only commit may sit on top of that SHA; do not rewrite `wiki_sha` to the checkpoint-only commit, and never store `pending`.
 
 Missing file means first run: empty watermarks, no compare base.
 

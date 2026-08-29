@@ -22,7 +22,7 @@ Drives incremental Wiki knowledge maintenance. Evidence is collected with `gh`; 
 
 ## Workflow Checklist
 
-- [ ] **Step 1**: Resolve owner/repo/default branch with `gh repo view`
+- [ ] **Step 1**: Resolve owner/repo/default branch with `scripts/repo-identity.sh`
 - [ ] **Step 2**: Load optional `.github/knowledge-config.json` and Wiki checkpoint (missing checkpoint = first run)
 - [ ] **Step 3**: Collect repository delta, merged PRs, and issues since watermarks
 - [ ] **Step 4**: Restrict reconciliation to the Architecture domain
@@ -34,8 +34,7 @@ Drives incremental Wiki knowledge maintenance. Evidence is collected with `gh`; 
 ### Workflow: Resolve Repository
 
 ```bash
-gh repo view --json owner,name,defaultBranchRef \
-  --jq '{owner: .owner.login, repo: .name, default_branch: .defaultBranchRef.name}'
+bash skills/gh-knowledge-maintain/scripts/repo-identity.sh
 ```
 
 Do not call `gh api user` for owner. Some tokens return 403.
@@ -46,10 +45,12 @@ Canonical collector (preferred):
 
 ```bash
 bash skills/gh-knowledge-maintain/scripts/collect-delta.sh \
+  [--checkpoint wiki-work/.knowledge/checkpoint.yml] \
+  [--head HEAD_SHA] \
   [checkpoint_sha] [issue_updated_since] [pr_merged_since]
 ```
 
-Omit `checkpoint_sha` on a first run. **Do not** call `compare` without a real base SHA (404). **Do not** pass `--search` to `gh issue list` (gh 2.x can return `number: 0` empty rows). Filter `updatedAt` with `jq`. `gh pr list --search "merged:>=DATE"` is safe.
+Omit `--checkpoint` on a first run. **Do not** call `compare` without a real base SHA (404). **Do not** pass `--search` to `gh issue list` (gh 2.x can return `number: 0` empty rows). Filter `updatedAt` with `jq`. `gh pr list --search "merged:>=DATE"` is safe. Default `--head` is the default-branch SHA; pass the working ref when reconciling unmerged files that exist only on that ref.
 
 ```bash
 # Current HEAD
@@ -90,7 +91,14 @@ Same collection and reconciliation as a normal run. Stop after the mutation plan
 
 ### Workflow: Advance Checkpoint After Publish
 
-Write `.knowledge/checkpoint.yml` **inside the Wiki working copy** and include it in the default-branch commit that you are about to push (or in an immediate follow-up commit on that branch). The **canonical** checkpoint advances only when that `git push` succeeds. If the push fails, the remote Wiki and remote checkpoint are unchanged — do not treat the local file as advanced.
+After the pages are committed in the Wiki working copy, write `.knowledge/checkpoint.yml` with:
+
+```bash
+bash skills/gh-knowledge-maintain/scripts/write-checkpoint.sh \
+  wiki-work "${REPOSITORY_SHA}" "$(git -C wiki-work rev-parse HEAD)"
+```
+
+`wiki_sha` is the Wiki **pages** commit (the content merge or direct commit). A follow-up checkpoint-only commit may sit on top. Never write `wiki_sha: pending`. Include the checkpoint file in the default-branch commits you are about to push. The **canonical** checkpoint advances only when that `git push` succeeds. If the push fails, the remote Wiki and remote checkpoint are unchanged — do not treat the local file as advanced.
 
 Never write a checkpoint during `/knowledge-audit`, after validation failure, or when the remote Wiki head moved.
 

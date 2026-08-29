@@ -60,7 +60,7 @@ Phase 1 must exercise at least `flowchart` and `sequenceDiagram` for Architectur
 
 ### Workflow: Parse a Diagram
 
-From the **repository / plugin root** (after `npm ci --prefix skills/gh-wiki-diagrams/scripts`):
+From the **repository / plugin root** (`scripts/plugin-root.sh` after `npm ci --prefix skills/gh-wiki-diagrams/scripts`):
 
 ```bash
 PARSER="skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs"

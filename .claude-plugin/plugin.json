@@ -23,6 +23,10 @@
     "./agents/github-triage-agent/SKILL.md",
     "./agents/github-project-manager/SKILL.md"
   ],
+  "commands": [
+    "./commands/knowledge-maintain.md",
+    "./commands/knowledge-audit.md"
+  ],
   "skills": [
     "./skills/gh-set-active-project",
     "./skills/gh-verifying-context",

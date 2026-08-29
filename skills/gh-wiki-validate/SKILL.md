@@ -43,7 +43,7 @@ Copy and complete:
 bash skills/gh-wiki-validate/scripts/validate-page.sh wiki-work/Architecture-Overview.md [git_ref]
 ```
 
-The script checks YAML keys, secret-like patterns, Mermaid fences, Architecture `flowchart` + `sequenceDiagram`, and kind-specific `gh` locators.
+The script parses YAML frontmatter (not grep), requires `evidence`, rejects duplicate `knowledge_id` among sibling pages, resolves `[[Wiki]]` links to `Page.md`, scans secret-like patterns, parses Mermaid fences, requires Architecture `flowchart` + `sequenceDiagram`, and checks kind-specific `gh` locators.
 
 ### Workflow: Evidence Locators via gh
 

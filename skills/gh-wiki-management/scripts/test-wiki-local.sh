@@ -3,9 +3,11 @@
 # Does not require GitHub Wiki to be enabled.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+ROOT="$("$(dirname "$0")/../../../scripts/plugin-root.sh")"
 PARSE="${ROOT}/skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs"
 EXAMPLE="${ROOT}/skills/gh-knowledge-maintain/assets/Architecture-Overview.example.md"
+CHECKPOINT_SH="${ROOT}/skills/gh-knowledge-maintain/scripts/write-checkpoint.sh"
+PARSE_YAML="${ROOT}/skills/gh-wiki-validate/scripts/parse-yaml.mjs"
 WORKDIR="$(mktemp -d)"
 trap 'rm -rf "${WORKDIR}"' EXIT
 
@@ -31,19 +33,17 @@ git -C "${W1}" push origin HEAD >/dev/null
 
 cp "${EXAMPLE}" "${W1}/Architecture-Overview.md"
 node "${PARSE}" "${W1}/Architecture-Overview.md" >/dev/null
-
-printf '%s\n' "schema_version: 1
-last_successful_run:
-  repository_sha: testha
-  wiki_sha: pending
-  completed_at: 2026-08-29T00:00:00Z
-evidence_watermarks:
-  issue_updated_at: 2026-08-01T00:00:00Z
-  pull_request_updated_at: 2026-08-01T00:00:00Z
-" >"${W1}/.knowledge/checkpoint.yml"
-
-git -C "${W1}" add Architecture-Overview.md .knowledge/checkpoint.yml
+git -C "${W1}" add Architecture-Overview.md
 git -C "${W1}" commit -m "docs(wiki): architecture overview" >/dev/null
+PAGES_SHA="$(git -C "${W1}" rev-parse HEAD)"
+ISSUE_WATERMARK="2026-08-01T00:00:00Z" \
+	PR_WATERMARK="2026-08-01T00:00:00Z" \
+	bash "${CHECKPOINT_SH}" "${W1}" "testha" "${PAGES_SHA}"
+git -C "${W1}" add .knowledge/checkpoint.yml
+git -C "${W1}" commit -m "docs(wiki): checkpoint" >/dev/null
+node "${PARSE_YAML}" "${W1}/.knowledge/checkpoint.yml" |
+	jq -e --arg sha "${PAGES_SHA}" '.last_successful_run.wiki_sha == $sha' >/dev/null
+
 BEFORE_PUSH="$(git -C "${W1}" rev-parse origin/master)"
 git -C "${W1}" fetch origin >/dev/null
 test "$(git -C "${W1}" rev-parse origin/master)" = "${BEFORE_PUSH}"
@@ -59,14 +59,15 @@ if ! git -C "${W2}" diff --cached --quiet; then
 	exit 1
 fi
 
-# Transactional: local branch, merge default, push default
-git -C "${W2}" checkout -b knowledge/tx >/dev/null 2>&1
+# Transactional: local branch, merge --no-ff into default, push default only
+git -C "${W2}" checkout -b knowledge-maintenance >/dev/null 2>&1
 printf '\n<!-- extra -->\n' >>"${W2}/Architecture-Overview.md"
 git -C "${W2}" add Architecture-Overview.md
 git -C "${W2}" commit -m "docs(wiki): extra" >/dev/null
 git -C "${W2}" checkout master >/dev/null 2>&1
-git -C "${W2}" merge --ff-only knowledge/tx >/dev/null
+git -C "${W2}" merge --no-ff knowledge-maintenance -m "docs(wiki): validated wiki update" >/dev/null
 git -C "${W2}" push origin HEAD >/dev/null
+git -C "${W2}" branch -D knowledge-maintenance >/dev/null
 
 # Race abort: stale clone behind after another push
 W3="${WORKDIR}/w3"

@@ -63,8 +63,8 @@ sequenceDiagram
   Maintainer->>Maintainer: reconcile Architecture prose and Mermaid
   Maintainer->>Operator: preview mutations
   Operator->>Maintainer: approve publish
+  Maintainer->>Wiki: commit pages and checkpoint
   Maintainer->>Wiki: push default branch
-  Maintainer->>Wiki: write checkpoint after successful push
 ```
 
 Claims on this page are no stronger than the `gh` locators in the
