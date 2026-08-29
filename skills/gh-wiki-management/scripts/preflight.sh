@@ -19,7 +19,19 @@ clone_url="https://github.com/${owner}/${repo}.wiki.git"
 
 has_wiki="$(gh api "repos/${owner}/${repo}" --jq .has_wiki)"
 wiki_remote="unavailable"
-if [[ "${has_wiki}" == "true" ]] && git ls-remote "${clone_url}" HEAD >/dev/null 2>&1; then
+gh auth setup-git >/dev/null 2>&1 || true
+
+ls_remote_wiki() {
+	local token=""
+	token="$(gh auth token 2>/dev/null || true)"
+	if [[ -n "${token}" ]] &&
+		git -c "http.extraHeader=Authorization: Bearer ${token}" ls-remote "${clone_url}" HEAD >/dev/null 2>&1; then
+		return 0
+	fi
+	git ls-remote "${clone_url}" HEAD >/dev/null 2>&1
+}
+
+if [[ "${has_wiki}" == "true" ]] && ls_remote_wiki; then
 	wiki_remote="ready"
 elif [[ "${has_wiki}" == "true" ]]; then
 	wiki_remote="uninitialized"

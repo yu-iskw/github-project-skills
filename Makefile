@@ -11,14 +11,22 @@ format:
 validate:
 	bash ./scripts/validate_agent_skills.sh
 
-.PHONY: test
-test:
-	bash ./scripts/test-plugin-manifest.sh
+.PHONY: test-node
+test-node:
 	npm ci --prefix skills/gh-wiki-diagrams/scripts
 	npm ci --prefix skills/gh-wiki-validate/scripts
 	bash ./skills/gh-wiki-diagrams/scripts/test-fixtures.sh
 	bash ./skills/gh-wiki-diagrams/scripts/test-parse-files.sh
+
+.PHONY: test-gh
+test-gh:
 	bash ./skills/gh-knowledge-maintain/scripts/test-helpers.sh
 	bash ./skills/gh-knowledge-maintain/scripts/test-evidence.sh
 	bash ./skills/gh-wiki-validate/scripts/test-validate-page.sh
 	bash ./skills/gh-knowledge-maintain/scripts/test-audit-loop.sh
+
+.PHONY: test
+test:
+	bash ./scripts/test-plugin-manifest.sh
+	$(MAKE) test-node
+	$(MAKE) test-gh

@@ -118,7 +118,7 @@ This project uses [uv](https://github.com/astral-sh/uv) for Python dependency ma
 - `make format`: Format the codebase using `trunk fmt`.
 - `make lint`: Check for linting issues using `trunk check`.
 - `make validate`: Validate all agent skills under the `skills/` and `agents/` directories.
-- `make test`: Plugin manifest (skill directories, slash commands), helper scripts, Mermaid fixtures, local Wiki git loop, live `gh` evidence, and the knowledge audit loop.
+- `make test`: Plugin manifest, Node Mermaid/YAML fixtures (`make test-node`), then live `gh` helper/evidence/Wiki tests (`make test-gh`).
 - `make sync`: Synchronize local skills with target agents.
 - `make sync-global`: Synchronize local skills globally.
 - `make update-skills`: Update all installed skills.

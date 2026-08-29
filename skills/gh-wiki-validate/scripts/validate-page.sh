@@ -5,10 +5,19 @@ set -euo pipefail
 
 PAGE="${1:?page markdown required}"
 ROOT="$("$(dirname "$0")/../../../scripts/plugin-root.sh")"
-REF="${2:-${KNOWLEDGE_REF:-$(git -C "${ROOT}" rev-parse HEAD)}}"
 PARSER="${ROOT}/skills/gh-wiki-diagrams/scripts/mermaid_parse.mjs"
 FRONTMATTER="${ROOT}/skills/gh-wiki-validate/scripts/frontmatter.mjs"
 IDENTITY="${ROOT}/skills/gh-knowledge-maintain/scripts/repo-identity.sh"
+
+if [[ -n "${2:-}" ]]; then
+	REF="${2}"
+elif [[ -n "${KNOWLEDGE_REF:-}" ]]; then
+	REF="${KNOWLEDGE_REF}"
+elif git -C "${PWD}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+	REF="$(git -C "${PWD}" rev-parse HEAD)"
+else
+	REF="$(git -C "${ROOT}" rev-parse HEAD)"
+fi
 
 errors=0
 error() {
@@ -34,18 +43,33 @@ done
 
 page_id="$(printf '%s' "${parsed}" | jq -r '.frontmatter.knowledge_id // empty')"
 page_class="$(printf '%s' "${parsed}" | jq -r '.frontmatter.knowledge_class // empty')"
-body="$(printf '%s' "${parsed}" | jq -r '.body')"
 
-if grep -E -q 'AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|github_pat_|-----BEGIN |xox[baprs]-' "${PAGE}"; then
+if grep -E -q 'AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|gho_[A-Za-z0-9]{36}|ghu_[A-Za-z0-9]{36}|ghs_[A-Za-z0-9]{36}|ghr_[A-Za-z0-9]{36}|github_pat_|-----BEGIN |xox[baprs]-|xoxe-' "${PAGE}"; then
 	error "secret-like pattern in page"
 fi
 
-if ! node "${PARSER}" "${PAGE}" >/dev/null; then
-	error "mermaid parse failed"
+families="$(printf '%s' "${parsed}" | jq -r '.mermaid_families[]?')"
+if [[ -n "${families}" ]]; then
+	if ! node "${PARSER}" "${PAGE}" >/dev/null; then
+		error "mermaid parse failed"
+	fi
 fi
 
 if [[ "${page_class}" == "architecture" ]]; then
-	if ! printf '%s' "${body}" | grep -q 'flowchart' || ! printf '%s' "${body}" | grep -q 'sequenceDiagram'; then
+	has_flow=0
+	has_seq=0
+	while IFS= read -r family; do
+		[[ -z "${family}" ]] && continue
+		case "${family}" in
+		flowchart | graph)
+			has_flow=1
+			;;
+		sequenceDiagram)
+			has_seq=1
+			;;
+		esac
+	done <<<"${families}"
+	if [[ "${has_flow}" -ne 1 || "${has_seq}" -ne 1 ]]; then
 		error "Architecture page must include flowchart and sequenceDiagram"
 	fi
 	evidence_len="$(printf '%s' "${parsed}" | jq '.frontmatter.evidence | length')"
@@ -108,7 +132,9 @@ while IFS= read -r item; do
 			if ! gh api "repos/${owner}/${repo}/contents/${value}?ref=${REF}" --jq .path >/dev/null 2>&1; then
 				error "file ${value} missing at ref ${REF}"
 			fi
-		elif [[ ! -f "${ROOT}/${value}" ]]; then
+		elif [[ -f "${PWD}/${value}" || -f "${ROOT}/${value}" ]]; then
+			:
+		else
 			error "file ${value} missing locally and commit ${REF} is not on GitHub"
 		fi
 		;;

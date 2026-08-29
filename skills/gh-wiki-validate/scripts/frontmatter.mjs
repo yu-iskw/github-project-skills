@@ -54,4 +54,21 @@ while ((linkMatch = pattern.exec(body)) !== null) {
   }
 }
 
-process.stdout.write(`${JSON.stringify({ frontmatter, wiki_links, body })}\n`);
+const mermaid_families = [];
+const fencePattern = /^```mermaid[^\n]*\n([\s\S]*?)^```/gm;
+let fenceMatch;
+while ((fenceMatch = fencePattern.exec(body)) !== null) {
+  const lines = fenceMatch[1].split(/\r?\n/);
+  let family = "";
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("%%")) {
+      continue;
+    }
+    family = trimmed.split(/\s+/)[0];
+    break;
+  }
+  mermaid_families.push(family);
+}
+
+process.stdout.write(`${JSON.stringify({ frontmatter, wiki_links, body, mermaid_families })}\n`);

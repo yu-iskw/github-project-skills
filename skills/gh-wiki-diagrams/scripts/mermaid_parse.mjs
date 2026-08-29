@@ -22,7 +22,7 @@ global.Element = window.Element;
 global.getComputedStyle = window.getComputedStyle.bind(window);
 
 const mermaid = (await import("mermaid")).default;
-mermaid.initialize({ startOnLoad: false, securityLevel: "loose" });
+mermaid.initialize({ startOnLoad: false, securityLevel: "strict" });
 
 function extractFences(text) {
   const fences = [];

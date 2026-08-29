@@ -43,7 +43,7 @@ Copy and complete:
 bash skills/gh-wiki-validate/scripts/validate-page.sh wiki-work/Architecture-Overview.md [git_ref]
 ```
 
-The script parses YAML frontmatter (not grep), requires `evidence`, rejects duplicate `knowledge_id` among sibling pages, resolves `[[Wiki]]` links to `Page.md`, scans secret-like patterns, parses Mermaid fences, requires Architecture `flowchart` + `sequenceDiagram`, and checks kind-specific `gh` locators.
+The script parses YAML frontmatter (not grep), requires `evidence`, rejects duplicate `knowledge_id` among sibling pages, resolves `[[Wiki]]` links to `Page.md`, scans secret-like patterns, parses Mermaid fences **when present** (Architecture still requires `flowchart`/`graph` + `sequenceDiagram`), and checks kind-specific `gh` locators.
 
 ### Workflow: Evidence Locators via gh
 
@@ -59,11 +59,11 @@ If kind is unknown, try `gh pr view` then `gh issue view`. Never treat a `gh pr 
 
 Reject Wiki text matching:
 
-- `AKIA` + 16 alphanumeric
-- `ghp_` + 36 alphanumeric
+- `AKIA` / `ASIA` + 16 alphanumeric
+- `ghp_` / `gho_` / `ghu_` / `ghs_` / `ghr_` + 36 alphanumeric
 - `github_pat_`
 - `-----BEGIN` private key headers
-- Slack `xox` tokens
+- Slack `xox` / `xoxe-` tokens
 
 ### Workflow: Semantic Challenge
 

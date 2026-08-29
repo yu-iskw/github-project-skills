@@ -23,7 +23,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
-permissions: read-all
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
 
 jobs:
   validate:
@@ -63,9 +66,15 @@ jobs:
             skills/gh-wiki-diagrams/scripts/package-lock.json
             skills/gh-wiki-validate/scripts/package-lock.json
 
+      - name: Install test dependencies
+        shell: bash
+        run: make test-node
+
       - name: Run knowledge skill tests
         shell: bash
-        run: make test
+        run: |
+          bash ./scripts/test-plugin-manifest.sh
+          make test-gh
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}

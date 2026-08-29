@@ -31,7 +31,7 @@ gh auth setup-git
 git clone "$(bash skills/gh-wiki-management/scripts/preflight.sh | jq -r .clone_url)" wiki-work
 ```
 
-If `has_wiki` is `false` or `ls-remote`/`clone` returns repository-not-found (exit 128), stop with bootstrap instructions. Local verification without a live Wiki uses [scripts/test-wiki-local.sh](scripts/test-wiki-local.sh).
+If `has_wiki` is `false` or authenticated `ls-remote`/`clone` returns repository-not-found (exit 128), stop with bootstrap instructions. Preflight runs `gh auth setup-git` and uses the `gh` token for `ls-remote` so private Wikis are not mistaken for uninitialized. Local verification without a live Wiki uses [scripts/test-wiki-local.sh](scripts/test-wiki-local.sh).
 
 ### Workflow: Detect Default Branch
 

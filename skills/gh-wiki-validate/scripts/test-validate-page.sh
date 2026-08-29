@@ -139,4 +139,72 @@ if ! bash "${VALIDATE}" "${LINK_DIR}/Good-Link.md" >/dev/null; then
 	exit 1
 fi
 
+NO_DIAGRAM="${WORKDIR}/no-diagram.md"
+cat >"${NO_DIAGRAM}" <<'EOF'
+---
+knowledge_schema: 1
+knowledge_id: no-diagram
+knowledge_class: procedure
+status: active
+confidence: high
+evidence: []
+---
+
+# Notes without a diagram
+EOF
+if ! bash "${VALIDATE}" "${NO_DIAGRAM}" >/dev/null; then
+	echo "FAIL: non-Architecture page without Mermaid fences should pass" >&2
+	exit 1
+fi
+
+SECRET="${WORKDIR}/secret.md"
+cat >"${SECRET}" <<'EOF'
+---
+knowledge_schema: 1
+knowledge_id: secret-page
+knowledge_class: procedure
+status: active
+confidence: high
+evidence: []
+---
+
+token ghs_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+EOF
+if bash "${VALIDATE}" "${SECRET}" >/dev/null 2>&1; then
+	echo "FAIL: GitHub App token prefix ghs_ must fail closed" >&2
+	exit 1
+fi
+
+GRAPH="${WORKDIR}/graph-td.md"
+cat >"${GRAPH}" <<'EOF'
+---
+knowledge_schema: 1
+knowledge_id: graph-td-architecture
+knowledge_class: architecture
+status: active
+confidence: high
+evidence:
+  - kind: file
+    path: skills/gh-wiki-validate/SKILL.md
+---
+
+# Graph alias
+
+```mermaid
+graph TD
+  A --> B
+```
+
+```mermaid
+sequenceDiagram
+  participant A
+  participant B
+  A->>B: ok
+```
+EOF
+if ! bash "${VALIDATE}" "${GRAPH}" >/dev/null; then
+	echo "FAIL: Architecture graph TD must count as flowchart" >&2
+	exit 1
+fi
+
 echo "validate-page-ok"
