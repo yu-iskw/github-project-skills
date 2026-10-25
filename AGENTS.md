@@ -21,7 +21,7 @@ Run from the repository root:
 - `make lint` — `trunk check -a -y` (`Makefile`).
 - `make validate` — `bash ./scripts/validate_agent_skills.sh` (`Makefile`), which runs `uv run skills-ref validate` on each `skills/**/SKILL.md` (`scripts/validate_agent_skills.sh`).
 
-Pull requests also run Trunk Check (`.github/workflows/workflows/trunk_check.yml`) and skill validation on `main`/PRs (`.github/workflows/workflows/validate_skills.yml`: `uv python install`, then `uv run bash ./scripts/validate_agent_skills.sh`).
+Pull requests also run Trunk Check (`.github/workflows/trunk_check.yml`) and skill validation on `main`/PRs (`.github/workflows/validate_skills.yml`: `uv python install`, then `uv run bash ./scripts/validate_agent_skills.sh`).
 
 ## When documentation and code disagree
 
